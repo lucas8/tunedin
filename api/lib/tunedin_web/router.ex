@@ -7,6 +7,8 @@ defmodule TunedinWeb.Router do
 
   scope "/api", TunedinWeb do
     pipe_through :api
+
+    get "/user/hello", UserController, :index
   end
 
   # Enables LiveDashboard only for development
