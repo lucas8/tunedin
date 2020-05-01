@@ -28,3 +28,5 @@ tunedin-*.tar
 /priv/static/
 
 /.elixir_ls
+
+.env

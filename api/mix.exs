@@ -20,7 +20,7 @@ defmodule Tunedin.MixProject do
   def application do
     [
       mod: {Tunedin.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :ueberauth, :ueberauth_spotify]
     ]
   end
 
@@ -42,7 +42,9 @@ defmodule Tunedin.MixProject do
       {:telemetry_poller, "~> 0.4"},
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
-      {:plug_cowboy, "~> 2.0"}
+      {:plug_cowboy, "~> 2.0"},
+      {:ueberauth, "~> 0.6"},
+      {:ueberauth_spotify, "0.2.1"}
     ]
   end
 
