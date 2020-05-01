@@ -22,7 +22,9 @@ defmodule TunedinWeb.Router do
   scope "/auth", TunedinWeb do
     pipe_through :browser
 
+    get "/signout", SessionController, :delete
     get "/:provider", SessionController, :request
+    get "/:provider/callback", SessionController, :create
   end
   # Enables LiveDashboard only for development
   #

@@ -2,10 +2,38 @@ defmodule TunedinWeb.SessionController do
   use TunedinWeb, :controller
   plug Ueberauth
 
-  def create(%{assigns: %{uberauth_assigns: auth}} = conn, %{"provider" => provider}) do
-    IO.inspect(auth)
-    IO.puts(provider)
+  alias Tunedin.Accounts
+  alias Tunedin.Accounts.User
 
+  def create(%{assigns: %{ueberauth_auth: auth}} = conn, _params) do
+    IO.inspect(auth.info)
+    user_params = %{
+      access_token: auth.credentials.token,
+      expiry: auth.credentials.expires_at,
+      username: auth.info.nickname,
+      avatar_url: auth.info.image,
+      email: auth.info.email,
+      refresh_token: auth.credentials.refresh_token
+    }
+
+    changeset = User.changeset(%User{}, user_params)
+
+    case Accounts.insert_or_update_user(changeset) do
+      {:ok, user} ->
+        conn
+        |> put_session(:user_id, user.id)
+        |> render("response.json", success: true, message: "Successfully logged in.")
+
+      {:error, reason} ->
+        IO.inspect(reason)
+        conn
+        |> render("response.json", success: false, message: "An error occued while logging in.")
+    end
+  end
+
+  def delete(conn, _params) do
     conn
+    |> Accounts.sign_out()
+    |> render("response.json", success: true, message: "Successfully logged out.")
   end
 end

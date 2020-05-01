@@ -4,9 +4,11 @@ defmodule Tunedin.Accounts.User do
 
   schema "users" do
     field :access_token, :string
-    field :expiry, :string
+    field :expiry, :integer
     field :refresh_token, :string
     field :username, :string
+    field :email, :string
+    field :avatar_url, :string
 
     timestamps()
   end
@@ -14,9 +16,9 @@ defmodule Tunedin.Accounts.User do
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:access_token, :refresh_token, :expiry, :username])
+    |> cast(attrs, [:access_token, :refresh_token, :expiry, :username, :email, :avatar_url])
     |> validate_required([:access_token, :refresh_token, :expiry, :username])
-    |> unique_constraint([:username])
+    |> unique_constraint([:username, :email])
     |> validate_length(:username, max: 30)
   end
 end
