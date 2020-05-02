@@ -21,7 +21,7 @@ defmodule TunedinWeb.SessionController do
     case Accounts.insert_or_update_user(changeset) do
       {:ok, user} ->
         conn
-        |> put_session(:user_id, user.id)
+        |> Plug.Conn.put_session(:user_id, user.id)
         |> render("response.json", success: true, message: "Successfully logged in.")
 
       {:error, reason} ->
