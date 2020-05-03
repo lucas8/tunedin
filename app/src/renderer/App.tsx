@@ -1,7 +1,10 @@
-import * as React from 'react'
-import * as ReactDOM from 'react-dom'
+import React from 'react';
+import Providers from './components/Providers';
 
-ReactDOM.render(
-  <div>hello world from React! </div>,
-  document.getElementById('root'),
-)
+export default function App() {
+    return (
+        <Providers>
+            <div>hello world!</div>
+        </Providers>
+    );
+}
