@@ -20,6 +20,8 @@ defmodule TunedinWeb.Router do
     pipe_through :api
 
     post "/rooms/new", RoomController, :create
+
+    get "/music/search", MusicController, :search
   end
 
   scope "/auth", TunedinWeb do

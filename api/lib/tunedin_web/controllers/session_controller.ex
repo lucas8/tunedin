@@ -6,7 +6,6 @@ defmodule TunedinWeb.SessionController do
   alias Tunedin.Accounts.User
 
   def create(%{assigns: %{ueberauth_auth: auth}} = conn, _params) do
-    IO.inspect(auth.info)
     user_params = %{
       access_token: auth.credentials.token,
       expiry: auth.credentials.expires_at,
@@ -24,8 +23,7 @@ defmodule TunedinWeb.SessionController do
         |> Plug.Conn.put_session(:user_id, user.id)
         |> render("response.json", success: true, message: "Successfully logged in.")
 
-      {:error, reason} ->
-        IO.inspect(reason)
+      {:error, _} ->
         conn
         |> render("response.json", success: false, message: "An error occued while logging in.")
     end
