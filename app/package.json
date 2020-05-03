@@ -80,6 +80,7 @@
         "@electron-forge/maker-zip": "6.0.0-beta.51",
         "@electron-forge/plugin-webpack": "6.0.0-beta.51",
         "@marshallofsound/webpack-asset-relocator-loader": "^0.5.0",
+        "@types/react-router-dom": "^5.1.5",
         "@types/styled-components": "^5.1.0",
         "@typescript-eslint/eslint-plugin": "^2.30.0",
         "@typescript-eslint/parser": "^2.30.0",
@@ -105,6 +106,7 @@
         "electron-squirrel-startup": "^1.0.0",
         "react": "^16.13.1",
         "react-dom": "^16.13.1",
+        "react-router-dom": "^5.1.2",
         "styled-components": "^5.1.0",
         "styled-normalize": "^8.0.7"
     }
