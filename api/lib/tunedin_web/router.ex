@@ -1,14 +1,40 @@
 defmodule TunedinWeb.Router do
   use TunedinWeb, :router
 
+  pipeline :browser do
+    plug :accepts, ["html"]
+    plug :fetch_session
+    plug :fetch_flash
+    plug :protect_from_forgery
+    plug :put_secure_browser_headers
+  end
+
   pipeline :api do
     plug :accepts, ["json"]
+    plug :fetch_session
+    plug Tunedin.Accounts.Pipeline
   end
 
   scope "/api", TunedinWeb do
     pipe_through :api
+
+    post "/rooms/new", RoomController, :create
+
+    get "/music/search", MusicController, :search
+    get "/music/recent", MusicController, :recent
+    get "/music/refresh", MusicController, :refresh
+
+    get "/users/me", UserController, :me
   end
 
+  scope "/auth", TunedinWeb do
+    pipe_through :browser
+
+    get "/signout", SessionController, :delete
+    get "/:provider", SessionController, :request
+    get "/:provider/callback", SessionController, :create
+    get "/:provider/get", SessionController, :get
+  end
   # Enables LiveDashboard only for development
   #
   # If you want to use the LiveDashboard in production, you should put
