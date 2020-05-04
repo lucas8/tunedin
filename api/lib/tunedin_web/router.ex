@@ -13,7 +13,6 @@ defmodule TunedinWeb.Router do
     plug :accepts, ["json"]
     plug :fetch_session
     plug Tunedin.Accounts.Pipeline
-    plug CORSPlug, origin: "http://localhost:3000"
   end
 
   scope "/api", TunedinWeb do
@@ -34,6 +33,7 @@ defmodule TunedinWeb.Router do
     get "/signout", SessionController, :delete
     get "/:provider", SessionController, :request
     get "/:provider/callback", SessionController, :create
+    get "/:provider/get", SessionController, :get
   end
   # Enables LiveDashboard only for development
   #

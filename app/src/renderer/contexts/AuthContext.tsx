@@ -15,20 +15,28 @@ interface ProviderProps {
     children?: React.ReactNode;
 }
 
-const getUser = async (): Promise<APIResponse> => {
-    const req = await fetch('http://localhost:4000/api/users/me', {
-        method: 'get',
-        credentials: 'include',
-    });
+const getUser = async (token: string | null): Promise<APIResponse> => {
+    if (token) {
+        const req = await fetch('http://localhost:4000/api/users/me', {
+            method: 'get',
+            mode: 'no-cors',
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-type': 'application/json',
+            },
+        });
 
-    const response = req.json();
+        const response = req.json();
 
-    if (req.ok && req.status == 200) {
-        return response;
-    } else if (req.status == 401) {
-        throw new Error('Unauthorized');
+        if (req.ok && req.status == 200) {
+            return response;
+        } else if (req.status == 401) {
+            throw new Error('Unauthorized');
+        } else {
+            throw new Error('Unhandled error');
+        }
     } else {
-        throw new Error('Unhandled error');
+        throw new Error('Unauthorized');
     }
 };
 
@@ -43,22 +51,18 @@ export default function AuthProvider({ children }: ProviderProps) {
     });
 
     React.useEffect(() => {
-        getUser().then(
+        getUser(localStorage.getItem('tunedin_token')).then(
             (user) => setState({ isAuthed: true, user: user.message, isLoading: false, error: null }),
             (error) => setState({ isAuthed: false, user: null, isLoading: false, error }),
         );
     }, []);
 
-    ipcRenderer.on('login-reply', (_, arg) => {
-        if (arg === 'success') {
-            getUser().then(
-                (user) => setState({ isAuthed: true, user: user.message, isLoading: false, error: null }),
-                (error) => setState({ isAuthed: false, user: null, isLoading: false, error }),
-            );
-        } else {
-            // TODO: Display error to user
-            console.error('Error loggin in');
-        }
+    ipcRenderer.on('login-reply-token', (_, token) => {
+        localStorage.setItem('tunedin_token', token);
+        getUser(token).then(
+            (user) => setState({ isAuthed: true, user: user.message, isLoading: false, error: null }),
+            (error) => setState({ isAuthed: false, user: null, isLoading: false, error }),
+        );
     });
 
     return (

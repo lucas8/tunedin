@@ -21,13 +21,17 @@ defmodule TunedinWeb.SessionController do
         {:ok, token, _} = Guardian.encode_and_sign(user)
         conn
         |> Guardian.Plug.sign_in(user)
-        |> render("response.json", success: true, message: %{token: token})
+        |> redirect(to: "/auth/spotify/get?token=#{token}")
 
       {:error, _} ->
         conn
         |> put_status(:internal_server_error)
         |> render("response.json", success: false, message: "An error occued while logging in.")
     end
+  end
+
+  def get(conn, _params) do
+    conn |> render("response.json", success: true, message: "Hello World!")
   end
 
   def delete(conn, _params) do

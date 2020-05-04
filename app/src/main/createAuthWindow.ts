@@ -23,13 +23,16 @@ export function createAuthWindow(event: IpcMainEvent) {
     } = win.webContents;
 
     const filter = {
-        urls: ['http://localhost:4000/auth/spotify/callback*'],
+        urls: ['http://localhost:4000/auth/spotify/get*'],
     };
 
-    webRequest.onBeforeRequest(filter, async (details) => {
-        console.log(details);
-        // await event.reply('login-reply', 'success');
-        // destroyAuthWindow();
+    webRequest.onBeforeRequest(filter, async ({ url }, callback) => {
+        const token = new URL(url).searchParams.get('token');
+        console.log(token);
+        await event.reply('login-reply-token', token);
+        destroyAuthWindow();
+
+        callback({ cancel: true });
     });
 
     win.on('closed', () => {
