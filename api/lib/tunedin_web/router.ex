@@ -7,13 +7,13 @@ defmodule TunedinWeb.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
-    plug TunedinWeb.Plugs.SetUser
   end
 
   pipeline :api do
     plug :accepts, ["json"]
     plug :fetch_session
     plug TunedinWeb.Plugs.SetUser
+    plug CORSPlug, origin: "http://localhost:3000"
   end
 
   scope "/api", TunedinWeb do
@@ -24,6 +24,8 @@ defmodule TunedinWeb.Router do
     get "/music/search", MusicController, :search
     get "/music/recent", MusicController, :recent
     get "/music/refresh", MusicController, :refresh
+
+    get "/users/me", UserController, :me
   end
 
   scope "/auth", TunedinWeb do

@@ -109,6 +109,7 @@
         "react-dom": "^16.13.1",
         "react-router-dom": "^5.1.2",
         "styled-components": "^5.1.0",
-        "styled-normalize": "^8.0.7"
+        "styled-normalize": "^8.0.7",
+        "unfetch": "^4.1.0"
     }
 }

@@ -19,7 +19,9 @@ defmodule TunedinWeb.MusicController do
         refresh_token(conn, user)
 
       {:ok, _} ->
-        render(conn, "response.json", success: false, message: "Unhanded error, try again later.")
+        conn
+        |> put_status(:internal_server_error)
+        |> render("response.json", success: false, message: "Unhanded error, try again later.")
     end
   end
 
@@ -36,7 +38,9 @@ defmodule TunedinWeb.MusicController do
         refresh_token(conn, user)
 
       {:ok, _} ->
-        render(conn, "response.json", success: false, message: "Unhanded error, try again later.")
+        conn
+        |> put_status(:internal_server_error)
+        |> render("response.json", success: false, message: "Unhanded error, try again later.")
     end
   end
 
@@ -53,7 +57,9 @@ defmodule TunedinWeb.MusicController do
         render(conn, "response.json", success: false, message: "Successfully refreshed access token, try again.")
 
       {:ok, _} ->
-        render(conn, "response.json", success: false, message: "Failed trying to refetch access_token, try again later.")
+        conn
+        |> put_status(:unauthorized)
+        |> render("response.json", success: false, message: "Failed trying to refetch access_token, try again later.")
     end
   end
 end

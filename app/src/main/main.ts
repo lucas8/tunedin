@@ -1,4 +1,5 @@
 import { app, BrowserWindow } from 'electron';
+import './ipc';
 declare const MAIN_WINDOW_WEBPACK_ENTRY: any;
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -15,7 +16,9 @@ const createWindow = () => {
         width: 340,
         frame: true,
         autoHideMenuBar: true,
-        // titleBarStyle: 'hiddenInset', // MacOS polished window
+        webPreferences: {
+            nodeIntegration: true,
+        },
     });
 
     // and load the index.html of the app.

@@ -15,6 +15,7 @@ defmodule TunedinWeb.RoomController do
         |> render("response.json", success: true, message: room.name)
       {:error, _} ->
         conn
+        |> put_status(:internal_server_error)
         |> render("response.json", success: true, message: "Creating a room failed")
     end
   end

@@ -40,7 +40,7 @@ export const IconButton = styled.button`
 
 export const CancelButton = styled(motion.button).attrs(() => ({
     initial: { opacity: 0, transform: 'translate(30px)' },
-    animate: { opacity: 0.2, transform: 'translate(0px)', transition: { delay: 0.5 } },
+    animate: { opacity: 0.2, transform: 'translate(0px)', transition: { delay: 0.4 } },
 }))`
     outline: none;
     border: none;
@@ -81,7 +81,6 @@ export const MotionContainer = styled(motion.div).attrs(() => ({
     display: flex;
     padding: 8px 16px;
     align-items: center;
-    justify-items: space-between;
     width: 100%;
     position: absolute;
 `;

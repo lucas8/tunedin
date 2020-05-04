@@ -21,10 +21,11 @@ defmodule TunedinWeb.SessionController do
       {:ok, user} ->
         conn
         |> Plug.Conn.put_session(:user_id, user.id)
-        |> render("response.json", success: true, message: "Successfully logged in.")
+        |> redirect(to: "/api/users/me")
 
       {:error, _} ->
         conn
+        |> put_status(:internal_server_error)
         |> render("response.json", success: false, message: "An error occued while logging in.")
     end
   end
