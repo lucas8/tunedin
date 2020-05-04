@@ -12,7 +12,7 @@ defmodule TunedinWeb.Router do
   pipeline :api do
     plug :accepts, ["json"]
     plug :fetch_session
-    plug TunedinWeb.Plugs.SetUser
+    plug Tunedin.Accounts.Pipeline
     plug CORSPlug, origin: "http://localhost:3000"
   end
 

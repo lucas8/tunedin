@@ -26,10 +26,10 @@ export function createAuthWindow(event: IpcMainEvent) {
         urls: ['http://localhost:4000/auth/spotify/callback*'],
     };
 
-    webRequest.onBeforeRedirect(filter, async (details) => {
+    webRequest.onBeforeRequest(filter, async (details) => {
         console.log(details);
-        await event.reply('login-reply', 'success');
-        destroyAuthWindow();
+        // await event.reply('login-reply', 'success');
+        // destroyAuthWindow();
     });
 
     win.on('closed', () => {

@@ -47,7 +47,8 @@ defmodule Tunedin.MixProject do
       {:ueberauth_spotify, "0.2.1"},
       {:httpoison, "~> 1.6"},
       {:poison, "~> 3.1"},
-      {:cors_plug, "~> 2.0"}
+      {:cors_plug, "~> 2.0"},
+      {:guardian, "~> 2.1"}
     ]
   end
 

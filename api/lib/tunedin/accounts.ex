@@ -6,7 +6,7 @@ defmodule Tunedin.Accounts do
   import Ecto.Query, warn: false
   alias Tunedin.Repo
 
-  alias Tunedin.Accounts.User
+  alias Tunedin.Accounts.{User, Guardian}
 
   @doc """
   Returns the list of users.
@@ -113,6 +113,6 @@ defmodule Tunedin.Accounts do
   end
 
   def sign_out(conn) do
-    Plug.Conn.configure_session(conn, drop: true)
+    Guardian.Plug.sign_out(conn)
   end
 end

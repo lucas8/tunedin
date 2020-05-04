@@ -2,8 +2,7 @@ defmodule TunedinWeb.SessionController do
   use TunedinWeb, :controller
   plug Ueberauth
 
-  alias Tunedin.Accounts
-  alias Tunedin.Accounts.User
+  alias Tunedin.{Accounts, Accounts.User, Accounts.Guardian}
 
   def create(%{assigns: %{ueberauth_auth: auth}} = conn, _params) do
     user_params = %{
@@ -19,9 +18,10 @@ defmodule TunedinWeb.SessionController do
 
     case Accounts.insert_or_update_user(changeset) do
       {:ok, user} ->
+        {:ok, token, _} = Guardian.encode_and_sign(user)
         conn
-        |> Plug.Conn.put_session(:user_id, user.id)
-        |> redirect(to: "/api/users/me")
+        |> Guardian.Plug.sign_in(user)
+        |> render("response.json", success: true, message: %{token: token})
 
       {:error, _} ->
         conn
