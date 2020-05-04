@@ -22,6 +22,8 @@ defmodule TunedinWeb.Router do
     post "/rooms/new", RoomController, :create
 
     get "/music/search", MusicController, :search
+    get "/music/recent", MusicController, :recent
+    get "/music/refresh", MusicController, :refresh
   end
 
   scope "/auth", TunedinWeb do

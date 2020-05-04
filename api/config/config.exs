@@ -28,7 +28,7 @@ config :phoenix, :json_library, Jason
 
 config :ueberauth, Ueberauth,
   providers: [
-    spotify: {Ueberauth.Strategy.Spotify, [default_scope: "user-modify-playback-state user-read-currently-playing user-read-playback-state user-read-playback-position user-read-email playlist-read-private streaming user-library-read"]}
+    spotify: {Ueberauth.Strategy.Spotify, [default_scope: "user-modify-playback-state user-read-recently-played user-read-currently-playing user-read-playback-state user-read-playback-position user-read-email playlist-read-private streaming user-library-read"]}
   ]
 
 config :ueberauth, Ueberauth.Strategy.Spotify.OAuth,
