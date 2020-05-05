@@ -67,7 +67,6 @@ export default function AuthProvider({ children }: ProviderProps) {
     return (
         <AuthContext.Provider value={state}>
             {state.isLoading ? <h1>Loading...</h1> : state.error ? <Login /> : children}
-            <div>hi</div>
         </AuthContext.Provider>
     );
 }
