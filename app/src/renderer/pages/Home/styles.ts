@@ -10,6 +10,7 @@ export const HeadingContainer = styled.header`
     justify-content: flex-start;
     padding: 0 8px;
     transition: all ease 150ms;
+    z-index: 10;
 `;
 
 const variants = {
@@ -45,8 +46,9 @@ export const MotionContainer = styled(motion.div).attrs(() => ({
         opacity: { duration: 0.5 },
     },
 }))`
+    transform-origin: top;
     display: flex;
-    padding: 8px;
+    padding: 0px 8px 8px 8px;
     align-items: flex-start;
     justify-items: flex-start;
     flex-direction: column;

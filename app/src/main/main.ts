@@ -12,9 +12,10 @@ const createWindow = () => {
     // Create the browser window.
     const mainWindow = new BrowserWindow({
         title: 'Tunedin',
-        height: 580,
-        width: 340,
+        height: 600,
+        width: 400,
         frame: true,
+        minWidth: 350,
         autoHideMenuBar: true,
         webPreferences: {
             nodeIntegration: true,
