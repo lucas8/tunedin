@@ -19,7 +19,6 @@ const getUser = async (token: string | null): Promise<APIResponse> => {
     if (token) {
         const req = await fetch('http://localhost:4000/api/users/me', {
             method: 'get',
-            mode: 'no-cors',
             headers: {
                 Authorization: `Bearer ${token}`,
                 'Content-type': 'application/json',

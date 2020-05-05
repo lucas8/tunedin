@@ -28,7 +28,6 @@ export function createAuthWindow(event: IpcMainEvent) {
 
     webRequest.onBeforeRequest(filter, async ({ url }, callback) => {
         const token = new URL(url).searchParams.get('token');
-        console.log(token);
         await event.reply('login-reply-token', token);
         destroyAuthWindow();
 

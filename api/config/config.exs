@@ -35,6 +35,10 @@ config :ueberauth, Ueberauth.Strategy.Spotify.OAuth,
   client_id: System.get_env("SPOTIFY_CLIENT_ID"),
   client_secret: System.get_env("SPOTIFY_CLIENT_SECRET")
 
+config :tunedin, Tunedin.Accounts.Guardian,
+  issuer: "tunedin_app",
+  secret_key: System.get_env("SECRET_KEY")
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"
