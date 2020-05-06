@@ -4,8 +4,11 @@ import { AnimatedPageProps } from '../../pages/Home';
 import { Icon } from '../Icon';
 import * as S from './styles';
 import { HeadingContainer } from '../../pages/Home/styles';
+import { useRecentState } from '../../contexts/RecentContext';
 
 export default function Recent({ setDirection }: AnimatedPageProps) {
+    const { tracks } = useRecentState();
+
     return (
         <>
             <HeadingContainer>
@@ -14,7 +17,11 @@ export default function Recent({ setDirection }: AnimatedPageProps) {
                     <Icon glyph="search" size={16} />
                 </S.IconButton>
             </HeadingContainer>
-            <div>helo world</div>
+            <S.RecentTrackContainer>
+                {tracks?.map(({ track }, x) => {
+                    return <S.RecentTrack image={track.album.images[1].url} key={x} />;
+                })}
+            </S.RecentTrackContainer>
         </>
     );
 }

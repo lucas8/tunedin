@@ -8,9 +8,16 @@ export const HeadingContainer = styled.header`
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    padding: 0 8px;
+    backdrop-filter: blur(20px);
+    padding: 8px;
     transition: all ease 150ms;
     z-index: 10;
+    position: fixed;
+    background: #11111195;
+    left: 0;
+    top: 0;
+    right: 0;
+    margin-bottom: 60px;
 `;
 
 const variants = {

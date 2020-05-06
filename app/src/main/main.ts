@@ -14,12 +14,16 @@ const createWindow = () => {
         title: 'Tunedin',
         height: 600,
         width: 400,
-        frame: true,
         minWidth: 350,
-        autoHideMenuBar: true,
+        minHeight: 550,
+        frame: false,
+        // autoHideMenuBar: true,
+        // titleBarStyle: 'hiddenInset', // MacOS polished window
+        transparent: true,
         webPreferences: {
             nodeIntegration: true,
         },
+        backgroundColor: '#111111',
     });
 
     // and load the index.html of the app.

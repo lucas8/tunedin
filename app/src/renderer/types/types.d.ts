@@ -4,7 +4,38 @@ export interface User {
     avatar_url: string;
 }
 
-export interface APIResponse {
+export interface APIResponse<T> {
     success: boolean;
-    message: any;
+    message: T;
+}
+
+export interface Image {
+    height: number;
+    width: number;
+    url: string;
+}
+
+export interface Artist {
+    name: string;
+    type: string;
+    id: string;
+}
+
+export interface Album {
+    album_type: string;
+    artists: Artist[];
+    id: string;
+    images: Image[];
+    name: string;
+    type: string;
+}
+
+export interface Track {
+    album: Album;
+    name: string;
+    artists: Artist[];
+    duration_ms: number;
+    explicit: boolean;
+    type: string;
+    id: string;
 }

@@ -3,10 +3,13 @@ defmodule TunedinWeb.MusicController do
 
   alias Tunedin.Accounts
 
+  plug Guardian.Plug.EnsureAuthenticated
+
   @base_url "https://api.spotify.com/v1"
   @account_url "https://accounts.spotify.com/api"
 
-  def search(%{assigns: %{current_user: user}} = conn, %{"q" => q}) do
+  def search(conn, %{"q" => q}) do
+    user = Guardian.Plug.current_resource(conn)
     headers = [{"Authorization", "Bearer #{user.access_token}"}]
 
     # TODO: Search only limited to tracks, expand to artists and playlists in the future
@@ -25,7 +28,8 @@ defmodule TunedinWeb.MusicController do
     end
   end
 
-  def recent(%{assigns: %{current_user: user}} = conn, _params) do
+  def recent(conn, _params) do
+    user = Guardian.Plug.current_resource(conn)
     headers = [{"Authorization", "Bearer #{user.access_token}"}]
     params = [{"limit", 10}]
 

@@ -11,11 +11,11 @@ interface AuthState {
     error: Error | null;
 }
 
-interface ProviderProps {
+export interface ProviderProps {
     children?: React.ReactNode;
 }
 
-const getUser = async (token: string | null): Promise<APIResponse> => {
+const getUser = async (token: string | null): Promise<APIResponse<User>> => {
     if (token) {
         const req = await fetch('http://localhost:4000/api/users/me', {
             method: 'get',
@@ -43,7 +43,7 @@ const AuthContext = React.createContext<AuthState | undefined>(undefined);
 
 export default function AuthProvider({ children }: ProviderProps) {
     const [state, setState] = React.useState<AuthState>({
-        isLoading: false,
+        isLoading: true,
         isAuthed: false,
         user: null,
         error: new Error('Unhandled error'),
@@ -66,7 +66,19 @@ export default function AuthProvider({ children }: ProviderProps) {
 
     return (
         <AuthContext.Provider value={state}>
-            {state.isLoading ? <h1>Loading...</h1> : state.error ? <Login /> : children}
+            {state.isLoading ? null : state.error ? <Login /> : children}
         </AuthContext.Provider>
     );
+}
+
+export function useAuthState() {
+    const getAccessToken = localStorage.getItem('tunedin_token');
+    const state = React.useContext(AuthContext)!;
+    const isAuthenticated = state.user && state.isAuthed;
+
+    return {
+        ...state,
+        getAccessToken,
+        isAuthenticated,
+    };
 }
