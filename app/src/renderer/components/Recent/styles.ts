@@ -35,3 +35,26 @@ export const RecentTrack = styled.div<{ image: string }>`
     background-position: center;
     border-radius: 7px;
 `;
+
+export const BackgroundImage = styled.div<{ image?: string }>`
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 300px;
+    z-index: -1;
+    object-fit: cover;
+    ${({ image }) => image && `background: url('${image}') center center no-repeat;`}
+    background-size: cover;
+
+    &:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background: linear-gradient(180deg, rgba(17, 17, 17, 0.4) 0%, #111111 100%);
+    }
+`;
