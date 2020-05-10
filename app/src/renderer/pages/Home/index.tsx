@@ -3,6 +3,7 @@ import Search from '../../components/Search';
 import { AnimatePresence } from 'framer-motion';
 import * as S from './styles';
 import Recent from '../../components/Recent';
+import Player from '../../components/Player';
 
 export interface AnimatedPageProps {
     setDirection: (arg: boolean) => void;
@@ -35,6 +36,7 @@ export default function Home() {
                     </S.MotionContainer>
                 )}
             </AnimatePresence>
+            {/* <Player /> */}
         </>
     );
 }
