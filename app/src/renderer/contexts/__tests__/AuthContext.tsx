@@ -27,11 +27,7 @@ jest.mock('../../utils/getUser.ts', () => {
 describe('auth context', () => {
     it('should display a login page', () => {
         act(() => {
-            render(
-                <AuthProvider>
-                    <pre>success</pre>
-                </AuthProvider>,
-            );
+            render(tree(<pre>success</pre>));
         });
     });
 });
