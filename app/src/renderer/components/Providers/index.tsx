@@ -5,6 +5,7 @@ import theme from '../../theme';
 import AuthProvider from '../../contexts/AuthContext';
 import RecentProvider from '../../contexts/RecentContext';
 import Loading from '../Loading';
+import CurrentSocketProvider from '../../contexts/CurrentSocketContext';
 
 interface ProviderProps {
     children?: React.ReactNode;
@@ -17,7 +18,9 @@ export default function Providers({ children }: ProviderProps) {
             <ThemeProvider theme={theme}>
                 <AuthProvider>
                     <RecentProvider>
-                        <Loading>{children}</Loading>
+                        <CurrentSocketProvider>
+                            <Loading>{children}</Loading>
+                        </CurrentSocketProvider>
                     </RecentProvider>
                 </AuthProvider>
             </ThemeProvider>

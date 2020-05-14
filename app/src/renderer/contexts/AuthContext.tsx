@@ -34,12 +34,6 @@ export default function AuthProvider({ children }: ProviderProps) {
         },
     );
 
-    // const [state, setState] = React.useState<AuthState>({
-    //     isAuthed: !!(data?.success && data?.message),
-    //     user: data?.message,
-    //     error: error || null,
-    // });
-
     // ipcRenderer isn't always present when testing in an enviorment such as the reactdom while testing
     if (ipcRenderer) {
         ipcRenderer.on('login-reply-token', async (_, token) => {
@@ -56,7 +50,6 @@ export default function AuthProvider({ children }: ProviderProps) {
         }),
         [data, error],
     );
-    // use useMemo
 
     return <AuthContext.Provider value={state}>{state.isAuthed ? children : <Login />}</AuthContext.Provider>;
 }
