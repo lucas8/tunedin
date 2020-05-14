@@ -5,13 +5,15 @@ defmodule TunedinWeb.UserChannel do
 
   def join("user:" <> _id, _params, socket) do
     send(self(), :after_join)
-    {:ok, %{message: "hello world"}, socket}
+    {:ok, %{success: true}, socket}
   end
 
+  # TODO: using the plain id as the channel name is unsafe, change this to a token
   def handle_info(:after_join, %{assigns: %{user_id: user_id}} = socket) do
     user = Accounts.get_user!(user_id)
-    # Start long running GenServer process
-    # TODO: Refactor to just use 1 genserver
+
+    # TODO: If the genservers are taking up too much memory, refactor to only
+    # support 1 genserver and place that under the supervisor
     {:ok, pid} = Tunedin.Accounts.CurrentlyListening.start_link(%{token: user.access_token, id: user.id, prev_song_id: 0})
 
     # Start channel watcher, used to monitor if user leaves

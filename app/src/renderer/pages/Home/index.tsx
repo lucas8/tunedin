@@ -4,6 +4,7 @@ import { AnimatePresence } from 'framer-motion';
 import * as S from './styles';
 import Recent from '../../components/Recent';
 import Player from '../../components/Player';
+import { useCurrentSocketState } from '../../contexts/CurrentSocketContext';
 
 export interface AnimatedPageProps {
     setDirection: (arg: boolean) => void;
@@ -11,6 +12,7 @@ export interface AnimatedPageProps {
 
 export default function Home() {
     const [[direction, searchVisible], setSearchVisible] = React.useState([1, false]);
+    const { track, isPending } = useCurrentSocketState();
 
     const setDirection = (direction: boolean) => {
         if (!direction) {
@@ -36,7 +38,7 @@ export default function Home() {
                     </S.MotionContainer>
                 )}
             </AnimatePresence>
-            {/* <Player /> */}
+            <AnimatePresence>{!!track && !isPending && <Player />}</AnimatePresence>
         </>
     );
 }

@@ -12,7 +12,6 @@ defmodule TunedinWeb.MusicController do
     user = Guardian.Plug.current_resource(conn)
     headers = [{"Authorization", "Bearer #{user.access_token}"}]
 
-    # TODO: Search only limited to tracks, expand to artists and playlists in the future
     case HTTPoison.get("#{@base_url}/search?q=#{q}&type=track", headers) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         {:ok, %{"tracks" => %{"items" => items}}} = Poison.decode(body)

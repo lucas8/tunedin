@@ -51,7 +51,11 @@ export default function AuthProvider({ children }: ProviderProps) {
         [data, error],
     );
 
-    return <AuthContext.Provider value={state}>{state.isAuthed ? children : <Login />}</AuthContext.Provider>;
+    return (
+        <AuthContext.Provider value={state}>
+            {state.isAuthed ? children : error ? <Login /> : null}
+        </AuthContext.Provider>
+    );
 }
 
 export function useAuthState() {

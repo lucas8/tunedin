@@ -2,7 +2,7 @@ defmodule Tunedin.Accounts.CurrentlyListening do
   use GenServer
 
   @base_url "https://api.spotify.com/v1"
-  @schedule_time 30 * 1000 # 2 minutes
+  @schedule_time 10 * 1000 # 30 seconds
 
   ## Client API
 
@@ -49,9 +49,9 @@ defmodule Tunedin.Accounts.CurrentlyListening do
     Process.send_after(self(), :get_current_song, @schedule_time)
   end
 
-  defp broadcast(response, id) do
+  defp broadcast(track, id) do
     TunedinWeb.Endpoint.broadcast!("user:#{id}", "current_song:update", %{
-      response: response
+      track: track
     })
   end
 end
