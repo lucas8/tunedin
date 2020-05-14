@@ -1,56 +1,34 @@
 import React from 'react';
 import { APIResponse, Track } from '../types/types';
-import fetch from 'unfetch';
 import { ProviderProps } from './AuthContext';
+import { getUserToken } from '../utils/localStorage';
+import useSWR from 'swr';
+import fetch from '../utils/fetcher';
 
 interface RecentTracksState {
-    isLoading: boolean;
-    tracks: { track: Track }[] | null;
+    tracks: { track: Track }[] | undefined;
     error: Error | null;
 }
-
-// TODO: Type track
-const getRecentTracks = async (): Promise<APIResponse<{ track: Track }[]>> => {
-    const token = localStorage.getItem('tunedin_token');
-
-    if (token) {
-        const req = await fetch('http://localhost:4000/api/music/recent', {
-            method: 'get',
-            headers: {
-                Authorization: `Bearer ${token}`,
-                'Content-type': 'application/json',
-            },
-        });
-
-        const response = req.json();
-
-        if (req.ok && req.status == 200) {
-            return response;
-        } else if (req.status == 401) {
-            throw new Error('Unauthorized');
-        } else {
-            throw new Error('Unhandled error');
-        }
-    } else {
-        throw new Error('Unauthorized');
-    }
-};
 
 const RecentContext = React.createContext<RecentTracksState | undefined>(undefined);
 
 export default function RecentProvider({ children }: ProviderProps) {
-    const [state, setState] = React.useState<RecentTracksState>({
-        isLoading: false,
-        tracks: null,
-        error: new Error('Unhandled error'),
-    });
+    const { data, error } = useSWR<APIResponse<{ track: Track }[]>>('http://localhost:4000/api/music/recent', (url) =>
+        fetch(url, {
+            headers: {
+                Authorization: `Bearer ${getUserToken()}`,
+                'Content-type': 'application/json',
+            },
+        }),
+    );
 
-    React.useEffect(() => {
-        getRecentTracks().then(
-            ({ message }) => setState({ tracks: message, isLoading: false, error: null }),
-            (error) => setState({ tracks: null, isLoading: false, error }),
-        );
-    }, []);
+    const state = React.useMemo(
+        () => ({
+            tracks: data?.message,
+            error: error,
+        }),
+        [data, error],
+    );
 
     return <RecentContext.Provider value={state}>{children}</RecentContext.Provider>;
 }

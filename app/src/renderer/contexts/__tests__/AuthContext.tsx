@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, act } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import AuthProvider from '../AuthContext';
 import { APIResponse, User } from '../../types/types';
 
@@ -8,7 +8,7 @@ const tree = (component: React.ReactNode): JSX.Element => <AuthProvider>{compone
 jest.mock('../../utils/getUser.ts', () => {
     return {
         getUser: jest.fn(
-            (token: string): Promise<APIResponse<User>> => {
+            (): Promise<APIResponse<User>> => {
                 return Promise.resolve({
                     message: {
                         // eslint-disable-next-line @typescript-eslint/camelcase
@@ -26,8 +26,6 @@ jest.mock('../../utils/getUser.ts', () => {
 
 describe('auth context', () => {
     it('should display a login page', () => {
-        act(() => {
-            render(tree(<pre>success</pre>));
-        });
+        render(tree(<pre>success</pre>));
     });
 });
