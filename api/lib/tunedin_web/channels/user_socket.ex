@@ -2,7 +2,7 @@ defmodule TunedinWeb.UserSocket do
   use Phoenix.Socket
   alias Tunedin.Accounts.Guardian
 
-  channel "user:*", MyApp.UserChannel
+  channel "user:*", TunedinWeb.UserChannel
 
   def connect(%{"token" => token}, socket, _conn_info) do
     case Guardian.decode_and_verify(token) do
