@@ -1,7 +1,9 @@
 import React from 'react';
 import { ProviderProps, useAuthState } from './AuthContext';
-import * as Socket from '../services/socket';
 import { Track } from '../types/types';
+import { Socket } from 'phoenix';
+import { getUserToken } from '../utils/localStorage';
+import styledLog from '../utils/styled-log';
 
 interface CurrentSocketState {
     track: Track | null;
@@ -18,15 +20,15 @@ export default function CurrentSocketProvider({ children }: ProviderProps) {
     });
 
     React.useEffect(() => {
-        const socket = Socket.initSocket();
-
         if (user) {
+            const socket = new Socket('ws://localhost:4000/socket', { params: { token: getUserToken() } });
+            socket.connect();
             const channel = socket.channel(`user:${user!.id}`, {});
             channel
                 .join()
                 .receive('ok', (resp) => {
                     setState((state) => ({ ...state, isPending: false }));
-                    console.log('Joined successfully', resp);
+                    styledLog('WS Connected');
                 })
                 .receive('error', (resp) => {
                     console.log('Unable to join', resp);

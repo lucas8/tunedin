@@ -24,8 +24,9 @@ export const Container = styled(motion.div).attrs(() => ({
     left: 0;
     right: 0;
     height: 70px;
-    background: #2a2a2a;
-    /* border-radius: 7px 7px 0 0; */
+    background: #2a2a2a95;
+    backdrop-filter: blur(20px);
+    transition: all ease 150ms;
     display: flex;
     align-items: center;
     justify-content: flex-start;
