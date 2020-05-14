@@ -2,7 +2,6 @@ defmodule Tunedin.Application do
   # See https://hexdocs.pm/elixir/Application.html
   # for more information on OTP Applications
   @moduledoc false
-  # import Supervisor.Spec
 
   use Application
 
@@ -15,11 +14,8 @@ defmodule Tunedin.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: Tunedin.PubSub},
       # Start the Endpoint (http/https)
-      TunedinWeb.Endpoint
-      # Tunedin.Accounts.CurrentlyListening
-      # worker(Tunedin.Accounts.CurrentlyListening, [])
-
-      # worker(MyApp.Periodically, [])
+      TunedinWeb.Endpoint,
+      {Tunedin.ChannelWatcher, :users}
       # Start a worker by calling: Tunedin.Worker.start_link(arg)
     ]
 

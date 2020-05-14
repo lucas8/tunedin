@@ -17,6 +17,7 @@ const createWindow = () => {
         minWidth: 350,
         minHeight: 550,
         frame: false,
+        // frame: true,
         // autoHideMenuBar: true,
         // titleBarStyle: 'hiddenInset', // MacOS polished window
         transparent: true,

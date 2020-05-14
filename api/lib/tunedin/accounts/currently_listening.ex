@@ -4,6 +4,12 @@ defmodule Tunedin.Accounts.CurrentlyListening do
   @base_url "https://api.spotify.com/v1"
   @schedule_time 30 * 1000 # 2 minutes
 
+  ## Client API
+
+  def shutdown(pid) do
+    GenServer.cast(pid, :shutdown)
+  end
+
   def start_link(opts \\ []) do
     GenServer.start_link(__MODULE__, opts, name: __MODULE__)
   end
@@ -20,7 +26,7 @@ defmodule Tunedin.Accounts.CurrentlyListening do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         {:ok, %{"item" => %{"id" => songId} = item}} = Poison.decode(body)
 
-        # Song isnt equal to the previous song
+        # Check song isnt equal to the previous song
         if(songId !== prev_song_id) do
           broadcast(item, id)
         end
@@ -34,7 +40,7 @@ defmodule Tunedin.Accounts.CurrentlyListening do
     end
   end
 
-  def handle_info(:shutdown, state) do
+  def handle_cast(:shutdown, state) do
     Process.exit(self(), :kill)
     {:noreply, state}
   end

@@ -24,6 +24,11 @@ export default function CurrentSocketProvider({ children }: ProviderProps) {
         channel.on(`current_song:update`, (msg) => {
             console.log(msg);
         });
+
+        return () => {
+            console.log('Killing genserver...');
+            channel.push('kill-genserver', {});
+        };
     }, []);
     return <CurrentSocketContext.Provider value={'hi'}>{children}</CurrentSocketContext.Provider>;
 }
