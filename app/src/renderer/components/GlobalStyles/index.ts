@@ -11,7 +11,7 @@ export default createGlobalStyle`
   html {
     font-size: 16px;
     line-height: 1.5;
-    background-color: ${theme.ui.background};
+    background-color: #000;
     color: ${theme.text.primary};
     padding: 0;
     margin: 0;

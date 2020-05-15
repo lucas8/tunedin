@@ -11,8 +11,14 @@ export interface AnimatedPageProps {
 }
 
 export default function Home() {
+    const [isOpen, setOpen] = React.useState(false);
     const [[direction, searchVisible], setSearchVisible] = React.useState([1, false]);
     const { track, isPending } = useCurrentSocketState();
+    const [scrollPos, setScrollPos] = React.useState(0);
+
+    const trackScroll = (e: React.UIEvent<HTMLDivElement, UIEvent>) => {
+        setScrollPos(e.currentTarget.scrollTop);
+    };
 
     const setDirection = (direction: boolean) => {
         if (!direction) {
@@ -24,21 +30,25 @@ export default function Home() {
 
     return (
         <>
-            <AnimatePresence initial={false} custom={direction}>
-                {searchVisible && (
-                    <S.MotionContainer custom={direction}>
-                        <Search setDirection={setDirection} />
-                    </S.MotionContainer>
-                )}
+            <S.MotionPageContainer isOpen={isOpen} onScroll={trackScroll}>
+                <AnimatePresence initial={false} custom={direction}>
+                    {searchVisible && (
+                        <S.MotionContainer custom={direction}>
+                            <Search setDirection={setDirection} />
+                        </S.MotionContainer>
+                    )}
+                </AnimatePresence>
+                <AnimatePresence initial={false} custom={direction}>
+                    {!searchVisible && (
+                        <S.MotionContainer custom={direction}>
+                            <Recent setDirection={setDirection} scrollPos={scrollPos} />
+                        </S.MotionContainer>
+                    )}
+                </AnimatePresence>
+            </S.MotionPageContainer>
+            <AnimatePresence>
+                {!!track && !isPending && <Player isOpen={isOpen} setOpen={() => setOpen(!isOpen)} />}
             </AnimatePresence>
-            <AnimatePresence initial={false} custom={direction}>
-                {!searchVisible && (
-                    <S.MotionContainer custom={direction}>
-                        <Recent setDirection={setDirection} />
-                    </S.MotionContainer>
-                )}
-            </AnimatePresence>
-            <AnimatePresence>{!!track && !isPending && <Player />}</AnimatePresence>
         </>
     );
 }

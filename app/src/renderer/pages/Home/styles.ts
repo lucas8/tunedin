@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
+import theme from '../../theme';
 
 const variants = {
     enter: (direction: number) => {
@@ -43,4 +44,42 @@ export const MotionContainer = styled(motion.div).attrs(() => ({
     width: 100%;
     height: 100%;
     position: absolute;
+`;
+
+const containerVariants = {
+    small: {
+        opacity: 0.25,
+        scale: 0.95,
+        borderRadius: 7,
+    },
+    full: {
+        opacity: 1,
+        scale: 1,
+        borderRadius: 0,
+    },
+};
+
+interface MotionPageContainerProps {
+    isOpen: boolean;
+}
+
+export const MotionPageContainer = styled(motion.div).attrs(({ isOpen }: MotionPageContainerProps) => ({
+    variants: containerVariants,
+    animate: isOpen ? 'small' : 'full',
+    transition: {
+        type: 'spring',
+        stiffness: 200,
+        damping: 30,
+        duration: 0.25,
+    },
+}))<MotionPageContainerProps>`
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background: ${theme.ui.background};
+    overflow: auto;
 `;

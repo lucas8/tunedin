@@ -1,7 +1,6 @@
 export default function styledLog(message: any) {
     const styles = [
         'background: #1DB954',
-        'border: 1px solid #3E0E02',
         'color: white',
         'display: block',
         'text-align: center',

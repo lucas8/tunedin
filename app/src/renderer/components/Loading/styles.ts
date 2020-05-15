@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
+import theme from '../../theme';
 
 export const Container = styled.div`
     width: 100%;
@@ -40,6 +41,7 @@ export const MotionContainer = styled(motion.div).attrs(() => ({
     right: 0;
     bottom: 0;
     height: 100%;
+    background: ${theme.ui.background};
     width: 100%;
 `;
 

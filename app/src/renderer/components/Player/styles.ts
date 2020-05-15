@@ -2,34 +2,37 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 
 const variants = {
-    hidden: {
-        y: 70,
+    initial: {
+        y: '100%',
     },
-    shown: {
-        y: 0,
+    small: {
+        y: 'calc(100% - 70px)',
+    },
+    big: {
+        y: 30,
     },
 };
 
-export const Container = styled(motion.div).attrs(() => ({
+interface ContainerProps {
+    isOpen: boolean;
+}
+
+export const Container = styled(motion.div).attrs(({ isOpen }: ContainerProps) => ({
     variants,
-    initial: 'hidden',
-    animate: 'shown',
-    transition: {
-        y: { type: 'spring', stiffness: 300, damping: 200 },
-    },
-}))`
+    initial: 'initial',
+    animate: isOpen ? 'big' : 'small',
+    transition: { type: 'spring', stiffness: 200, damping: 30 },
+}))<ContainerProps>`
     width: 100%;
     position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 70px;
+    height: 100%;
+    z-index: 100;
     background: #2a2a2a95;
     backdrop-filter: blur(20px);
-    transition: all ease 150ms;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: flex-start;
+    border-radius: 5px 5px 0 0;
     padding: 14px;
 `;
 

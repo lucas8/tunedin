@@ -26,16 +26,17 @@ export default function CurrentSocketProvider({ children }: ProviderProps) {
             const channel = socket.channel(`user:${user!.id}`, {});
             channel
                 .join()
-                .receive('ok', (resp) => {
-                    setState((state) => ({ ...state, isPending: false }));
-                    styledLog('WS Connected');
+                .receive('ok', ({ success }) => {
+                    if (success) {
+                        setState((state) => ({ ...state, isPending: false }));
+                        styledLog('WS Connected');
+                    }
                 })
                 .receive('error', (resp) => {
                     console.log('Unable to join', resp);
                 });
 
             channel.on('current_song:update', (msg) => {
-                console.log(msg);
                 setState((state) => ({ ...state, track: msg.track }));
             });
         }

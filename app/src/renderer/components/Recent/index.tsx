@@ -6,7 +6,11 @@ import * as S from './styles';
 import { useRecentState } from '../../contexts/RecentContext';
 import Header from '../Header';
 
-export default function Recent({ setDirection }: AnimatedPageProps) {
+interface RecentPageProps extends AnimatedPageProps {
+    scrollPos: number;
+}
+
+export default function Recent({ setDirection, scrollPos }: RecentPageProps) {
     const { tracks } = useRecentState();
 
     let titleImage: string | undefined = undefined;
@@ -17,7 +21,7 @@ export default function Recent({ setDirection }: AnimatedPageProps) {
     return (
         <>
             <S.BackgroundImage image={titleImage} />
-            <Header scrollTitle="Recently Played">
+            <Header scrollTitle="Recently Played" scrollPos={scrollPos}>
                 <H1>Recently Played</H1>
                 <S.IconButton onClick={() => setDirection(true)}>
                     <Icon glyph="search" size={16} />

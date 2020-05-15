@@ -24,6 +24,7 @@ export const RecentTrackContainer = styled.div`
     grid-gap: 8px;
     padding: 4px 8px;
     margin-top: 60px;
+    z-index: 10;
 `;
 
 export const RecentTrack = styled.div<{ image: string }>`
@@ -43,7 +44,7 @@ export const BackgroundImage = styled.div<{ image?: string }>`
     right: 0;
     width: 100%;
     height: 300px;
-    z-index: -1;
+    z-index: 2;
     object-fit: cover;
     ${({ image }) => image && `background: url('${image}') center center no-repeat;`}
     background-size: cover;
