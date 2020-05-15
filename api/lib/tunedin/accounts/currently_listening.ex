@@ -26,6 +26,8 @@ defmodule Tunedin.Accounts.CurrentlyListening do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         {:ok, %{"item" => %{"id" => songId} = item}} = Poison.decode(body)
 
+        IO.inspect(item)
+
         # Check song isnt equal to the previous song
         if(songId !== prev_song_id) do
           broadcast(item, id)

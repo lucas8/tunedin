@@ -48,7 +48,7 @@ export const MotionContainer = styled(motion.div).attrs(() => ({
 
 const containerVariants = {
     small: {
-        opacity: 0.25,
+        opacity: 0.4,
         scale: 0.95,
         borderRadius: 7,
     },
@@ -59,6 +59,8 @@ const containerVariants = {
     },
 };
 
+// TODO: Fix spotify not playing -> playing bug
+
 interface MotionPageContainerProps {
     isOpen: boolean;
 }
@@ -67,9 +69,7 @@ export const MotionPageContainer = styled(motion.div).attrs(({ isOpen }: MotionP
     variants: containerVariants,
     animate: isOpen ? 'small' : 'full',
     transition: {
-        type: 'spring',
-        stiffness: 200,
-        damping: 30,
+        ease: 'easeInOut',
         duration: 0.25,
     },
 }))<MotionPageContainerProps>`

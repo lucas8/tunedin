@@ -28,9 +28,15 @@ export default function Home() {
         }
     };
 
+    const mainClick = () => {
+        if (isOpen) {
+            setOpen(false);
+        }
+    };
+
     return (
         <>
-            <S.MotionPageContainer isOpen={isOpen} onScroll={trackScroll}>
+            <S.MotionPageContainer isOpen={isOpen} onScroll={trackScroll} onClick={mainClick}>
                 <AnimatePresence initial={false} custom={direction}>
                     {searchVisible && (
                         <S.MotionContainer custom={direction}>

@@ -41,13 +41,13 @@ export const MotionContainer = styled(motion.div).attrs(() => ({
     right: 0;
     bottom: 0;
     height: 100%;
-    background: ${theme.ui.background};
     width: 100%;
 `;
 
 export const LoadingContainer = styled.div`
     width: 100%;
     height: 100%;
+    background: ${theme.ui.background};
     display: flex;
     align-items: center;
     justify-content: center;
