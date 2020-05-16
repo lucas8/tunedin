@@ -13,7 +13,7 @@ export interface AnimatedPageProps {
 export default function Home() {
     const [isOpen, setOpen] = React.useState(false);
     const [[direction, searchVisible], setSearchVisible] = React.useState([1, false]);
-    const { track, isPending } = useCurrentSocketState();
+    const { isPending, isTrackPlaying } = useCurrentSocketState();
     const [scrollPos, setScrollPos] = React.useState(0);
 
     const trackScroll = (e: React.UIEvent<HTMLDivElement, UIEvent>) => {
@@ -53,7 +53,7 @@ export default function Home() {
                 </AnimatePresence>
             </S.MotionPageContainer>
             <AnimatePresence>
-                {!!track && !isPending && <Player isOpen={isOpen} setOpen={() => setOpen(!isOpen)} />}
+                {!isPending && isTrackPlaying !== null && <Player isOpen={isOpen} setOpen={() => setOpen(!isOpen)} />}
             </AnimatePresence>
         </>
     );

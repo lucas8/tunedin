@@ -1,6 +1,7 @@
 export default {
     brand: {
         primary: '#1DB954',
+        error: '#FF4B4B',
     },
     ui: {
         background: '#111111',

@@ -5,7 +5,7 @@ import theme from '../../theme';
 const variants = {
     enter: (direction: number) => {
         return {
-            x: direction > 0 ? 1000 : -1000,
+            x: direction > 0 ? '100%' : '-100%',
             opacity: 0,
             scale: 0.9,
         };
@@ -18,7 +18,7 @@ const variants = {
     exit: (direction: number) => {
         return {
             zIndex: 0,
-            x: direction < 0 ? 1000 : -1000,
+            x: direction < 0 ? '100%' : '-100%',
             opacity: 0,
             scale: 0.9,
         };
@@ -35,7 +35,7 @@ export const MotionContainer = styled(motion.div).attrs(() => ({
         opacity: { duration: 0.5 },
     },
 }))`
-    transform-origin: top;
+    transform-origin: center;
     display: flex;
     padding: 0px 8px 8px 8px;
     align-items: flex-start;
@@ -59,8 +59,6 @@ const containerVariants = {
     },
 };
 
-// TODO: Fix spotify not playing -> playing bug
-
 interface MotionPageContainerProps {
     isOpen: boolean;
 }
@@ -81,5 +79,5 @@ export const MotionPageContainer = styled(motion.div).attrs(({ isOpen }: MotionP
     left: 0;
     bottom: 0;
     background: ${theme.ui.background};
-    overflow: auto;
+    overflow: ${({ isOpen }) => (isOpen ? 'hidden' : 'auto')};
 `;

@@ -1,6 +1,6 @@
 {
-    "name": "my-new-app",
-    "productName": "my-new-app",
+    "name": "tunedin",
+    "productName": "tunedin",
     "version": "1.0.0",
     "description": "My Electron application description",
     "main": ".webpack/main",
@@ -89,6 +89,7 @@
         "@types/styled-components": "^5.1.0",
         "@typescript-eslint/eslint-plugin": "^2.30.0",
         "@typescript-eslint/parser": "^2.30.0",
+        "copy-webpack-plugin": "^6.0.0",
         "css-loader": "^3.0.0",
         "electron": "8.2.5",
         "eslint": "^6.8.0",
@@ -105,7 +106,8 @@
         "style-loader": "^0.23.1",
         "ts-jest": "^25.5.1",
         "ts-loader": "^6.2.1",
-        "typescript": "^3.7.0"
+        "typescript": "^3.7.0",
+        "url-loader": "^4.1.0"
     },
     "dependencies": {
         "@types/react": "^16.9.34",

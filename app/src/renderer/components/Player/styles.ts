@@ -1,33 +1,29 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-
-const variants = {
-    initial: {
-        y: 'calc(100% + 70px)',
-    },
-    small: {
-        y: '100%',
-    },
-    big: {
-        y: 70,
-    },
-};
-
-// TODO: Besiar curve
-
 interface ContainerProps {
     isOpen: boolean;
+    isPlaying: boolean;
 }
 
-export const Container = styled(motion.div).attrs(({ isOpen }: ContainerProps) => ({
-    variants,
+export const Container = styled(motion.div).attrs(({ isOpen, isPlaying }: ContainerProps) => ({
+    variants: {
+        initial: {
+            y: `calc(100% + ${isPlaying ? '70px' : '40px'})`,
+        },
+        small: {
+            y: '100%',
+        },
+        big: {
+            y: 70,
+        },
+    },
     initial: 'initial',
     animate: isOpen ? 'big' : 'small',
     transition: { ease: 'easeInOut', type: 'spring', stiffness: 200, damping: 30 },
 }))<ContainerProps>`
     width: 100%;
     position: fixed;
-    height: calc(100% - 70px);
+    height: calc(100% - ${({ isPlaying }) => (isPlaying ? '70px' : '40px')});
     z-index: 100;
     background: #2a2a2a95;
     backdrop-filter: blur(20px);
@@ -35,7 +31,19 @@ export const Container = styled(motion.div).attrs(({ isOpen }: ContainerProps) =
     align-items: flex-start;
     justify-content: space-between;
     border-radius: 5px 5px 0 0;
-    padding: 14px;
+`;
+
+interface PlayingContainerProps {
+    isPlaying: boolean;
+}
+
+export const PlayingContainer = styled.div<PlayingContainerProps>`
+    padding: ${({ isPlaying }) => (isPlaying ? '14px' : '8px')};
+    width: 100%;
+    height: ${({ isPlaying }) => (isPlaying ? '70px' : '40px')};
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 `;
 
 export const AlbumContainer = styled.div`
@@ -80,16 +88,18 @@ const buttonVariants = {
     },
 };
 
-export const Button = styled(motion.button).attrs(({ isOpen }: ContainerProps) => ({
+interface ButtonProps {
+    isOpen: boolean;
+}
+
+export const Button = styled(motion.button).attrs(({ isOpen }: ButtonProps) => ({
     variants: buttonVariants,
     animate: isOpen ? 'down' : 'up',
     transition: { ease: 'easeInOut', type: 'spring', stiffness: 200, damping: 30 },
-}))<ContainerProps>`
+}))<ButtonProps>`
     outline: none;
     border: none;
     background: none;
-    width: 32px;
-    height: 32px;
     color: rgba(255, 255, 255, 0.5);
 
     div {

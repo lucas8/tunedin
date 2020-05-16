@@ -30,7 +30,7 @@ defmodule TunedinWeb.MusicController do
   def recent(conn, _params) do
     user = Guardian.Plug.current_resource(conn)
     headers = [{"Authorization", "Bearer #{user.access_token}"}]
-    params = [{"limit", 10}]
+    params = [{"limit", 20}]
 
     case HTTPoison.get("#{@base_url}/me/player/recently-played", headers, params: params) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
@@ -38,7 +38,7 @@ defmodule TunedinWeb.MusicController do
         render(conn, "response.json", success: true, message: cursors)
 
       {:ok, %HTTPoison.Response{status_code: 401}} ->
-        refresh_token(conn, user)
+        conn |> refresh_token(user)
 
       {:ok, _} ->
         conn

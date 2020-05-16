@@ -13,13 +13,18 @@ interface RecentTracksState {
 const RecentContext = React.createContext<RecentTracksState | undefined>(undefined);
 
 export default function RecentProvider({ children }: ProviderProps) {
-    const { data, error } = useSWR<APIResponse<{ track: Track }[]>>('http://localhost:4000/api/music/recent', (url) =>
-        fetch(url, {
-            headers: {
-                Authorization: `Bearer ${getUserToken()}`,
-                'Content-type': 'application/json',
-            },
-        }),
+    const { data, error } = useSWR<APIResponse<{ track: Track }[]>>(
+        'http://localhost:4000/api/music/recent',
+        (url) =>
+            fetch(url, {
+                headers: {
+                    Authorization: `Bearer ${getUserToken()}`,
+                    'Content-type': 'application/json',
+                },
+            }),
+        {
+            errorRetryCount: 1,
+        },
     );
 
     const state = React.useMemo(

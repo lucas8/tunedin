@@ -1,6 +1,9 @@
-export default function styledLog(message: any) {
+import theme from '../theme';
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export default function styledLog(message: any, success: boolean) {
     const styles = [
-        'background: #1DB954',
+        `background: ${success ? theme.brand.primary : theme.brand.error}`,
         'color: white',
         'display: block',
         'text-align: center',

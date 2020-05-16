@@ -8,8 +8,10 @@ import styledLog from '../utils/styled-log';
 interface CurrentSocketState {
     track: Track | null;
     isPending: boolean;
+    isTrackPlaying: boolean | null;
 }
 
+// TODO: Fix spotify not playing -> playing bug
 const CurrentSocketContext = React.createContext<undefined | CurrentSocketState>(undefined);
 
 export default function CurrentSocketProvider({ children }: ProviderProps) {
@@ -17,6 +19,7 @@ export default function CurrentSocketProvider({ children }: ProviderProps) {
     const [state, setState] = React.useState<CurrentSocketState>({
         track: null,
         isPending: true,
+        isTrackPlaying: null,
     });
 
     React.useEffect(() => {
@@ -29,15 +32,19 @@ export default function CurrentSocketProvider({ children }: ProviderProps) {
                 .receive('ok', ({ success }) => {
                     if (success) {
                         setState((state) => ({ ...state, isPending: false }));
-                        styledLog('WS Connected');
+                        styledLog('WS Connected', true);
                     }
                 })
-                .receive('error', (resp) => {
-                    console.log('Unable to join', resp);
+                .receive('error', () => {
+                    styledLog('Unable to join WS', false);
                 });
 
             channel.on('current_song:update', (msg) => {
-                setState((state) => ({ ...state, track: msg.track }));
+                if (msg.success) {
+                    setState((state) => ({ ...state, track: msg.track, isTrackPlaying: true }));
+                } else {
+                    setState((state) => ({ ...state, isTrackPlaying: false }));
+                }
             });
         }
     }, []);
