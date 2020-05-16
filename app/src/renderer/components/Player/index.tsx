@@ -1,14 +1,14 @@
 import React from 'react';
+import { AnimatePresence } from 'framer-motion';
+import InnerPlayer from '../InnerPlayer';
 import * as S from './styles';
 import { useCurrentSocketState } from '../../contexts/CurrentSocketContext';
 import { Icon } from '../Icon';
+import Divider from '../Divider';
+import { usePlayerState } from '../../contexts/PlayerContext';
 
-interface PlayerProps {
-    isOpen: boolean;
-    setOpen: () => void;
-}
-
-export default function Player({ isOpen, setOpen }: PlayerProps) {
+export default function Player() {
+    const { isOpen, setOpen } = usePlayerState();
     const { track, isTrackPlaying } = useCurrentSocketState();
     const artists = track?.artists
         .map((artist) => {
@@ -17,7 +17,7 @@ export default function Player({ isOpen, setOpen }: PlayerProps) {
         .join(', ');
 
     return (
-        <S.Container isOpen={isOpen} isPlaying={!!isTrackPlaying}>
+        <S.Container isOpen={isOpen} isPlaying={!!isTrackPlaying} height={200}>
             <S.PlayingContainer isPlaying={!!isTrackPlaying}>
                 <S.AlbumContainer>
                     {isTrackPlaying && !!track ? (
@@ -34,10 +34,16 @@ export default function Player({ isOpen, setOpen }: PlayerProps) {
                         </S.AlbumTextContainer>
                     )}
                 </S.AlbumContainer>
-                <S.Button isOpen={isOpen} onClick={() => setOpen()}>
+                <S.Button isOpen={isOpen} onClick={() => setOpen(!isOpen)}>
                     <Icon glyph="chevron-down" size={28} />
                 </S.Button>
             </S.PlayingContainer>
+            <Divider />
+            {isOpen && (
+                <AnimatePresence>
+                    <InnerPlayer />
+                </AnimatePresence>
+            )}
         </S.Container>
     );
 }

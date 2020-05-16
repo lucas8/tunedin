@@ -5,13 +5,14 @@ import * as S from './styles';
 import Recent from '../../components/Recent';
 import Player from '../../components/Player';
 import { useCurrentSocketState } from '../../contexts/CurrentSocketContext';
+import { usePlayerState } from '../../contexts/PlayerContext';
 
 export interface AnimatedPageProps {
     setDirection: (arg: boolean) => void;
 }
 
 export default function Home() {
-    const [isOpen, setOpen] = React.useState(false);
+    const { isOpen, setOpen } = usePlayerState();
     const [[direction, searchVisible], setSearchVisible] = React.useState([1, false]);
     const { isPending, isTrackPlaying } = useCurrentSocketState();
     const [scrollPos, setScrollPos] = React.useState(0);
@@ -52,9 +53,7 @@ export default function Home() {
                     )}
                 </AnimatePresence>
             </S.MotionPageContainer>
-            <AnimatePresence>
-                {!isPending && isTrackPlaying !== null && <Player isOpen={isOpen} setOpen={() => setOpen(!isOpen)} />}
-            </AnimatePresence>
+            <AnimatePresence>{!isPending && isTrackPlaying !== null && <Player />}</AnimatePresence>
         </>
     );
 }

@@ -1,5 +1,6 @@
 import React from 'react';
-import { ProviderProps, useAuthState } from './AuthContext';
+import { ProviderProps } from './';
+import { useAuthState } from './AuthContext';
 import { Track } from '../types/types';
 import { Socket } from 'phoenix';
 import { getUserToken } from '../utils/localStorage';
@@ -11,7 +12,6 @@ interface CurrentSocketState {
     isTrackPlaying: boolean | null;
 }
 
-// TODO: Fix spotify not playing -> playing bug
 const CurrentSocketContext = React.createContext<undefined | CurrentSocketState>(undefined);
 
 export default function CurrentSocketProvider({ children }: ProviderProps) {

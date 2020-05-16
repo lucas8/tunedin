@@ -3,18 +3,19 @@ import { motion } from 'framer-motion';
 interface ContainerProps {
     isOpen: boolean;
     isPlaying: boolean;
+    height: number;
 }
 
 export const Container = styled(motion.div).attrs(({ isOpen, isPlaying }: ContainerProps) => ({
     variants: {
         initial: {
-            y: `calc(100% + ${isPlaying ? '70px' : '40px'})`,
-        },
-        small: {
             y: '100%',
         },
+        small: {
+            y: `calc(100% - ${isPlaying ? '70px' : '40px'})`,
+        },
         big: {
-            y: 70,
+            y: 0,
         },
     },
     initial: 'initial',
@@ -23,13 +24,11 @@ export const Container = styled(motion.div).attrs(({ isOpen, isPlaying }: Contai
 }))<ContainerProps>`
     width: 100%;
     position: fixed;
-    height: calc(100% - ${({ isPlaying }) => (isPlaying ? '70px' : '40px')});
+    bottom: 0;
+    height: ${({ height }) => height}px;
     z-index: 100;
     background: #2a2a2a95;
     backdrop-filter: blur(20px);
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
     border-radius: 5px 5px 0 0;
 `;
 

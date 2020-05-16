@@ -1,20 +1,17 @@
 import React from 'react';
+import { ipcRenderer } from 'electron';
 import { User, APIResponse } from '../types/types';
 import Login from '../pages/Login';
 import { getUserToken, setUserToken } from '../utils/localStorage';
 import { baseUrl } from '../utils/config';
 import useSWR from 'swr';
 import fetcher from '../utils/fetcher';
-import { ipcRenderer } from 'electron';
+import { ProviderProps } from './';
 
 interface AuthState {
     isAuthed: boolean;
     user: User | undefined;
     error: Error | null;
-}
-
-export interface ProviderProps {
-    children?: React.ReactNode;
 }
 
 const AuthContext = React.createContext<AuthState | undefined>(undefined);
