@@ -1,5 +1,4 @@
 import React from 'react';
-import { AnimatePresence } from 'framer-motion';
 import InnerPlayer from '../InnerPlayer';
 import * as S from './styles';
 import { useCurrentSocketState } from '../../contexts/CurrentSocketContext';
@@ -8,7 +7,7 @@ import Divider from '../Divider';
 import { usePlayerState } from '../../contexts/PlayerContext';
 
 export default function Player() {
-    const { isOpen, setOpen } = usePlayerState();
+    const { isOpen, setOpen, playerHeight, view } = usePlayerState();
     const { track, isTrackPlaying } = useCurrentSocketState();
     const artists = track?.artists
         .map((artist) => {
@@ -17,7 +16,7 @@ export default function Player() {
         .join(', ');
 
     return (
-        <S.Container isOpen={isOpen} isPlaying={!!isTrackPlaying} height={200}>
+        <S.Container view={view} isOpen={isOpen} isPlaying={!!isTrackPlaying} height={playerHeight}>
             <S.PlayingContainer isPlaying={!!isTrackPlaying}>
                 <S.AlbumContainer>
                     {isTrackPlaying && !!track ? (
@@ -39,11 +38,7 @@ export default function Player() {
                 </S.Button>
             </S.PlayingContainer>
             <Divider />
-            {isOpen && (
-                <AnimatePresence>
-                    <InnerPlayer />
-                </AnimatePresence>
-            )}
+            <InnerPlayer />
         </S.Container>
     );
 }

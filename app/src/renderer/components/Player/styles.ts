@@ -3,33 +3,45 @@ import { motion } from 'framer-motion';
 interface ContainerProps {
     isOpen: boolean;
     isPlaying: boolean;
-    height: number;
+    height: string;
+    view: string;
 }
 
-export const Container = styled(motion.div).attrs(({ isOpen, isPlaying }: ContainerProps) => ({
+export const Container = styled(motion.div).attrs(({ isOpen, isPlaying, height, view }: ContainerProps) => ({
     variants: {
-        initial: {
-            y: '100%',
-        },
         small: {
             y: `calc(100% - ${isPlaying ? '70px' : '40px'})`,
         },
-        big: {
+        createjoin: {
             y: 0,
+            height: 200,
+        },
+        create: {
+            y: 0,
+            height: 400,
         },
     },
-    initial: 'initial',
-    animate: isOpen ? 'big' : 'small',
+    initial: {
+        y: '100%',
+    },
+    layoutTransition: {
+        type: 'spring',
+        damping: 10,
+        stiffness: 100,
+    },
+    animate: isOpen ? view : 'small',
     transition: { ease: 'easeInOut', type: 'spring', stiffness: 200, damping: 30 },
 }))<ContainerProps>`
     width: 100%;
     position: fixed;
     bottom: 0;
-    height: ${({ height }) => height}px;
+    /* height: ${({ height }) => height}; */
     z-index: 100;
     background: #2a2a2a95;
     backdrop-filter: blur(20px);
     border-radius: 5px 5px 0 0;
+    display: flex;
+    flex-direction: column;
 `;
 
 interface PlayingContainerProps {
