@@ -4,21 +4,21 @@ import { ProviderProps } from './';
 interface PlayerState {
     view: string;
     isOpen: boolean;
-    playerHeight: string;
+    playerHeight: number;
     setOpen: (isOpen: boolean) => void;
     setView: (view: string) => void;
 }
 
 const PlayerContext = React.createContext<PlayerState | undefined>(undefined);
 
-const getPlayerHeight = (view: string): string => {
+const getPlayerHeight = (view: string): number => {
     switch (view) {
         case 'createjoin':
-            return '200px';
+            return 150;
         case 'create':
-            return '400px';
+            return 400;
         default:
-            return '200px';
+            return 200;
     }
 };
 export default function PlayerProvider({ children }: ProviderProps) {

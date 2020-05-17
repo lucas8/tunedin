@@ -8,22 +8,21 @@ const pages = [
     {
         name: 'createjoin',
         component: <CreateJoin />,
-        secondary: false,
     },
-    { name: 'create', component: <div style={{ background: 'red' }}>hello world</div>, secondary: true },
+    { name: 'create', component: <div style={{ background: 'red' }}>hello world</div> },
 ];
 
 export default function InnerPlayer() {
-    const { isOpen, view } = usePlayerState();
+    const { view, isOpen } = usePlayerState();
     console.log(view);
 
     return (
         <AnimatePresence>
             {isOpen && (
                 <S.Wrapper>
-                    {pages.map(({ name, component, secondary }) => (
+                    {pages.map(({ name, component }) => (
                         <AnimatePresence key={name} initial={false}>
-                            {view == name && <S.Container custom={secondary ? -1 : 1}>{component}</S.Container>}
+                            {view == name && <S.Container custom={1}>{component}</S.Container>}
                         </AnimatePresence>
                     ))}
                 </S.Wrapper>

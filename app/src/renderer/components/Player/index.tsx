@@ -16,7 +16,12 @@ export default function Player() {
         .join(', ');
 
     return (
-        <S.Container view={view} isOpen={isOpen} isPlaying={!!isTrackPlaying} height={playerHeight}>
+        <S.Container
+            view={view}
+            isOpen={isOpen}
+            isPlaying={!!isTrackPlaying}
+            height={!!isTrackPlaying ? playerHeight + 75 : playerHeight + 40}
+        >
             <S.PlayingContainer isPlaying={!!isTrackPlaying}>
                 <S.AlbumContainer>
                     {isTrackPlaying && !!track ? (

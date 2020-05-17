@@ -1,9 +1,9 @@
 import React from 'react';
 import { APIResponse, Track } from '../types/types';
-import { ProviderProps } from './AuthContext';
 import { getUserToken } from '../utils/localStorage';
 import useSWR from 'swr';
 import fetch from '../utils/fetcher';
+import { ProviderProps } from './';
 
 interface RecentTracksState {
     tracks: { track: Track }[] | undefined;

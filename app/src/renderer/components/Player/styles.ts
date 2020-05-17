@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 interface ContainerProps {
     isOpen: boolean;
     isPlaying: boolean;
-    height: string;
+    height: number;
     view: string;
 }
 
@@ -13,12 +13,10 @@ export const Container = styled(motion.div).attrs(({ isOpen, isPlaying, height, 
             y: `calc(100% - ${isPlaying ? '70px' : '40px'})`,
         },
         createjoin: {
-            y: 0,
-            height: 200,
+            y: `calc(100% - ${height}px )`,
         },
         create: {
-            y: 0,
-            height: 400,
+            y: `calc(100% - ${height}px )`,
         },
     },
     initial: {
@@ -35,7 +33,7 @@ export const Container = styled(motion.div).attrs(({ isOpen, isPlaying, height, 
     width: 100%;
     position: fixed;
     bottom: 0;
-    /* height: ${({ height }) => height}; */
+    height: 100%;
     z-index: 100;
     background: #2a2a2a95;
     backdrop-filter: blur(20px);

@@ -2,33 +2,42 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 
 const variants = {
-    initial: (direction: number) => {
+    enter: (direction: number) => {
         return {
-            opacity: 0,
             x: direction > 0 ? '100%' : '-100%',
+            opacity: 0,
+            scale: 0.9,
         };
     },
-    animate: {
-        opacity: 1,
+    center: {
         x: 0,
+        opacity: 1,
+        scale: 1,
     },
     exit: (direction: number) => {
         return {
-            opacity: 0,
+            zIndex: 0,
             x: direction < 0 ? '100%' : '-100%',
+            opacity: 0,
+            scale: 0.9,
         };
     },
 };
 
 export const Container = styled(motion.div).attrs({
     variants,
-    initial: 'initial',
-    animate: 'animate',
+    initial: 'enter',
+    animate: 'center',
     exit: 'exit',
-    transition: { opacity: { duration: 1 }, ease: 'easeInOut', type: 'spring', stiffness: 200, damping: 30 },
+    transition: {
+        ease: 'easeInOut',
+        x: { type: 'spring', stiffness: 300, damping: 200 },
+        opacity: { duration: 0.5 },
+    },
 })`
     width: 100%;
     height: 100%;
+    position: absolute;
 `;
 
 export const Wrapper = styled(motion.div).attrs({
@@ -46,6 +55,7 @@ export const Wrapper = styled(motion.div).attrs({
     },
     transition: { opacity: { duration: 1 }, ease: 'easeInOut', type: 'spring', stiffness: 200, damping: 30 },
 })`
+    position: relative;
     width: 100%;
     height: 100%;
 `;

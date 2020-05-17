@@ -1,5 +1,5 @@
 import React from 'react';
-import { ProviderProps } from '../../contexts/AuthContext';
+import { ProviderProps } from '../../contexts';
 import { AnimatePresence } from 'framer-motion';
 import * as S from './styles';
 
