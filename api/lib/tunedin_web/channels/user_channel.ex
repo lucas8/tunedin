@@ -9,6 +9,7 @@ defmodule TunedinWeb.UserChannel do
   end
 
   # TODO: using the plain id as the channel name is unsafe, change this to a token
+  # TODO: If user logs out, the leave function should also be called
   def handle_info(:after_join, %{assigns: %{user_id: user_id}} = socket) do
     user = Accounts.get_user!(user_id)
 

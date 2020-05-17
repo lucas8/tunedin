@@ -59,3 +59,13 @@ export const Wrapper = styled(motion.div).attrs({
     width: 100%;
     height: 100%;
 `;
+
+export const InnerWrapper = styled.div<{ height: number }>`
+    width: 100%;
+    height: ${({ height }) => height}px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    flex-direction: column;
+`;

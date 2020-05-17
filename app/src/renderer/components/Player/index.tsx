@@ -7,7 +7,7 @@ import Divider from '../Divider';
 import { usePlayerState } from '../../contexts/PlayerContext';
 
 export default function Player() {
-    const { isOpen, setOpen, playerHeight, view } = usePlayerState();
+    const { isOpen, setOpen, currentPage, view } = usePlayerState();
     const { track, isTrackPlaying } = useCurrentSocketState();
     const artists = track?.artists
         .map((artist) => {
@@ -20,7 +20,7 @@ export default function Player() {
             view={view}
             isOpen={isOpen}
             isPlaying={!!isTrackPlaying}
-            height={!!isTrackPlaying ? playerHeight + 75 : playerHeight + 40}
+            height={!!isTrackPlaying ? currentPage.height + 75 : currentPage.height + 40}
         >
             <S.PlayingContainer isPlaying={!!isTrackPlaying}>
                 <S.AlbumContainer>

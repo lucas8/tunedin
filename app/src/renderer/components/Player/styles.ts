@@ -15,7 +15,7 @@ export const Container = styled(motion.div).attrs(({ isOpen, isPlaying, height, 
         createjoin: {
             y: `calc(100% - ${height}px )`,
         },
-        create: {
+        join: {
             y: `calc(100% - ${height}px )`,
         },
     },

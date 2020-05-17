@@ -1,19 +1,11 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
-    width: 100%;
-    height: 150px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-`;
-
-export const Title = styled.div`
+export const Title = styled.h4`
     font-weight: bold;
     font-size: 18px;
     text-align: center;
     color: #fff;
+    margin: 0;
 `;
 
 export const ButtonContainer = styled.div`

@@ -8,18 +8,18 @@ export default function CreateJoin() {
     const { setView } = usePlayerState();
 
     return (
-        <S.Container>
+        <>
             <S.Title>Create or Join a channel</S.Title>
             <S.ButtonContainer>
-                <S.Button onClick={() => setView('create')} color="#ffffff" style={{ marginRight: 20 }}>
+                <S.Button color="#ffffff" style={{ marginRight: 20 }}>
                     <Icon glyph="group" size={20} />
                     <span>Create</span>
                 </S.Button>
-                <S.Button color={theme.brand.primary}>
+                <S.Button onClick={() => setView('join')} color={theme.brand.primary}>
                     <Icon glyph="add-user" size={20} />
                     <span>Join</span>
                 </S.Button>
             </S.ButtonContainer>
-        </S.Container>
+        </>
     );
 }
