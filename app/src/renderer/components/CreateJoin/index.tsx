@@ -5,7 +5,11 @@ import theme from '../../theme';
 import { usePlayerState } from '../../contexts/PlayerContext';
 
 export default function CreateJoin() {
-    const { setView } = usePlayerState();
+    const { setView, setDirection } = usePlayerState();
+
+    React.useEffect(() => {
+        setDirection('right');
+    }, []);
 
     return (
         <>

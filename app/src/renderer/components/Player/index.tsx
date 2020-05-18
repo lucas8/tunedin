@@ -20,7 +20,8 @@ export default function Player() {
             view={view}
             isOpen={isOpen}
             isPlaying={!!isTrackPlaying}
-            height={!!isTrackPlaying ? currentPage.height + 75 : currentPage.height + 40}
+            // The +1 is to account for the divider
+            height={!!isTrackPlaying ? currentPage.height + (70 - 1) : currentPage.height + (40 - 1)}
         >
             <S.PlayingContainer isPlaying={!!isTrackPlaying}>
                 <S.AlbumContainer>
