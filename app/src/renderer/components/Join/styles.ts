@@ -9,7 +9,7 @@ export const Title = styled.h4`
     margin-bottom: 14px;
 `;
 
-export const Container = styled.div`
+export const Form = styled.form`
     width: 100%;
     height: 100%;
     display: flex;

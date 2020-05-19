@@ -62,6 +62,7 @@ export function useAuthState() {
 
     return {
         ...state,
+        user: state.user!,
         getAccessToken,
         isAuthenticated,
     };

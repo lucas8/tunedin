@@ -6,7 +6,7 @@ defmodule TunedinWeb.ChannelController do
   def create(conn, _params) do
     user = Guardian.Plug.current_resource(conn)
     channel_params = %{
-      slug: create_slug_of_length()
+      slug: create_slug_of_length(5)
     }
 
     case Music.insert_or_update_channel(user, channel_params) do
@@ -20,7 +20,7 @@ defmodule TunedinWeb.ChannelController do
     end
   end
 
-  defp create_slug_of_length(length \\ 20) do
+  defp create_slug_of_length(length) do
     :crypto.strong_rand_bytes(length) |> Base.url_encode64 |> binary_part(0, length)
   end
 end

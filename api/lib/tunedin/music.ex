@@ -104,7 +104,7 @@ defmodule Tunedin.Music do
   end
 
   def get_channel_by_slug(slug) do
-    Repo.get_by!(Channel, slug: slug)
+    Repo.get_by(Channel, slug: slug)
   end
 
   def insert_or_update_channel(user, attrs \\ %{}) do

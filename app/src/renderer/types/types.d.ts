@@ -40,3 +40,10 @@ export interface Track {
     type: string;
     id: string;
 }
+
+// Hook types
+
+export interface ReducerAction {
+    event: any;
+    payload: any;
+}

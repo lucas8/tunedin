@@ -2,58 +2,62 @@ defmodule Tunedin.Accounts.CurrentlyListening do
   use GenServer
 
   @base_url "https://api.spotify.com/v1"
-  @schedule_time 10 * 1000 # 30 seconds
+  @schedule_task 10 * 1000 # 10 seconds
 
-  ## Client API
+  # Client API
 
-  def shutdown(pid) do
-    GenServer.cast(pid, :shutdown)
+  def attach(server_name, user_id, user_token) do
+    GenServer.call(server_name, {:attach, user_id, user_token})
   end
 
-  def start_link(opts \\ []) do
-    GenServer.start_link(__MODULE__, opts, name: __MODULE__)
+  def detach(server_name, user_id) do
+    GenServer.call(server_name, {:detach, user_id})
   end
 
-  def init(state) do
-    state |> fetch_song()
-    {:ok, state}
+  # Server API
+
+  def start_link(name) do
+    GenServer.start_link(__MODULE__, [], name: name)
   end
 
-  def handle_info(:get_current_song, state) do
-    state |> fetch_song()
+  def init(_state) do
+    {:ok, %{users: Map.new()}}
   end
 
-  def handle_cast(:shutdown, state) do
-    Process.exit(self(), :kill)
-    {:noreply, state}
+  def handle_call({:attach, user_id, user_token}, _from, state) do
+    schedule_task(user_id)
+    {:reply, :ok, put_user(state, user_id, user_token)}
   end
 
-  defp schedule_task() do
-    Process.send_after(self(), :get_current_song, @schedule_time)
+  def handle_call({:detach, user_id}, _from, state) do
+    case Map.fetch(state.users, user_id) do
+      :error ->
+        {:reply, :ok, state}
+      {:ok, _} ->
+        {:reply, :ok, drop_user(state, user_id)}
+    end
   end
 
-  defp broadcast(topic, id, response) do
-    TunedinWeb.Endpoint.broadcast!("user:#{id}", topic, response)
-  end
-
-  defp fetch_song(%{token: token, id: user_id, prev_song_id: prev_song_id} = state) do
-    headers = [{"Authorization", "Bearer #{token}"}]
+  def handle_info({:get_current_song, user_id}, state) do
+    {:ok, user} = get_user(state, user_id)
+    headers = [{"Authorization", "Bearer #{user.token}"}]
 
     case HTTPoison.get("#{@base_url}/me/player/currently-playing", headers) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-        {:ok, %{"item" => %{"id" => songId} = item}} = Poison.decode(body)
+        {:ok, %{"item" => %{"id" => song_id} = item}} = Poison.decode(body)
 
-        # Check song isnt equal to the previous song
-        if(songId !== prev_song_id) do
+        # Song isnt equal to the previous song
+        if(song_id !== user.prev_song) do
+          IO.puts("HEYYY")
           broadcast("current_song:update", user_id, %{
             success: true,
             track: item
           })
         end
 
-        schedule_task()
+        schedule_task(user_id)
 
-        {:noreply, %{state | prev_song_id: songId}}
+        {:noreply, update_user(state, user_id, song_id)}
 
       {:ok, _reason} ->
         broadcast("current_song:update", user_id, %{
@@ -61,10 +65,33 @@ defmodule Tunedin.Accounts.CurrentlyListening do
           message: "No song currently playing."
         })
 
-        schedule_task()
+        schedule_task(user_id)
 
-        # We set the prev song id to 0 to send the current song if replayed
-        {:noreply, %{state | prev_song_id: 0}}
+        {:noreply, update_user(state, user_id, 0)}
     end
+  end
+
+  defp schedule_task(user_id) do
+    Process.send_after(self(), {:get_current_song, user_id}, @schedule_task)
+  end
+
+  defp put_user(state, user_id, user_token) do
+    %{state | users: Map.put(state.users, user_id, %{token: user_token, prev_song: 0})}
+  end
+
+  defp update_user(state, user_id, prev_song) do
+    %{state | users: Map.update!(state.users, user_id, &(Map.put(&1, :prev_song, prev_song)))}
+  end
+
+  defp drop_user(state, user_id) do
+    %{state | users: Map.delete(state.users, user_id)}
+  end
+
+  defp get_user(state, user_id) do
+    Map.fetch(state.users, user_id)
+  end
+
+  defp broadcast(topic, id, response) do
+    TunedinWeb.Endpoint.broadcast!("user:#{id}", topic, response)
   end
 end

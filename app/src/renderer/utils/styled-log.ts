@@ -12,5 +12,9 @@ export default function styledLog(message: any, success: boolean) {
         'border-radius: 7px',
     ].join(';');
 
-    console.log(`%c${message}`, styles);
+    if (success) {
+        console.log(`%c${message}`, styles);
+    } else {
+        console.error(`%c${message}`, styles);
+    }
 }

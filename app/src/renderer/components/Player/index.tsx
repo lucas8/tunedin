@@ -1,7 +1,7 @@
 import React from 'react';
 import InnerPlayer from '../InnerPlayer';
 import * as S from './styles';
-import { useCurrentSocketState } from '../../contexts/CurrentSocketContext';
+import { useCurrentSocketState } from '../../contexts/CurrentContext';
 import { Icon } from '../Icon';
 import Divider from '../Divider';
 import { usePlayerState } from '../../contexts/PlayerContext';

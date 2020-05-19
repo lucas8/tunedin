@@ -9,21 +9,19 @@ defmodule TunedinWeb.UserChannel do
   end
 
   # TODO: using the plain id as the channel name is unsafe, change this to a token
-  # TODO: If user logs out, the leave function should also be called
   def handle_info(:after_join, %{assigns: %{user_id: user_id}} = socket) do
     user = Accounts.get_user!(user_id)
 
-    # TODO: If the genservers are taking up too much memory, refactor to only
-    # support 1 genserver and place that under the supervisor
-    {:ok, pid} = Tunedin.Accounts.CurrentlyListening.start_link(%{token: user.access_token, id: user.id, prev_song_id: 0})
+    :ok = Tunedin.Accounts.CurrentlyListening.attach(:currently_listening, user.id, user.access_token)
+
 
     # Start channel watcher, used to monitor if user leaves
-    :ok = Tunedin.ChannelWatcher.monitor(:users, self(), {__MODULE__, :leave, [pid]})
+    :ok = Tunedin.ChannelWatcher.monitor(:users, self(), {__MODULE__, :leave, [user_id]})
 
-    {:noreply, assign(socket, :current_pid, pid)}
+    {:noreply, socket}
   end
 
-  def leave(pid) do
-    pid |> Tunedin.Accounts.CurrentlyListening.shutdown
+  def leave(user_id) do
+    Tunedin.Accounts.CurrentlyListening.detach(:currently_listening, user_id)
   end
 end

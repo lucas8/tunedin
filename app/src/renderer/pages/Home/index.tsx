@@ -4,7 +4,7 @@ import { AnimatePresence } from 'framer-motion';
 import * as S from './styles';
 import Recent from '../../components/Recent';
 import Player from '../../components/Player';
-import { useCurrentSocketState } from '../../contexts/CurrentSocketContext';
+import { useCurrentSocketState } from '../../contexts/CurrentContext';
 import { usePlayerState } from '../../contexts/PlayerContext';
 
 export interface AnimatedPageProps {
@@ -14,7 +14,7 @@ export interface AnimatedPageProps {
 export default function Home() {
     const { isOpen, setOpen } = usePlayerState();
     const [[direction, searchVisible], setSearchVisible] = React.useState([1, false]);
-    const { isPending, isTrackPlaying } = useCurrentSocketState();
+    const { isTrackPlaying, isPending } = useCurrentSocketState();
     const [scrollPos, setScrollPos] = React.useState(0);
 
     const trackScroll = (e: React.UIEvent<HTMLDivElement, UIEvent>) => {

@@ -15,7 +15,8 @@ defmodule Tunedin.Application do
       {Phoenix.PubSub, name: Tunedin.PubSub},
       # Start the Endpoint (http/https)
       TunedinWeb.Endpoint,
-      {Tunedin.ChannelWatcher, :users}
+      {Tunedin.ChannelWatcher, :users},
+      {Tunedin.Accounts.CurrentlyListening, :currently_listening},
       # Start a worker by calling: Tunedin.Worker.start_link(arg)
     ]
 

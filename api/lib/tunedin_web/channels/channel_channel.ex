@@ -8,9 +8,9 @@ defmodule TunedinWeb.ChannelChannel do
   def join("channel:" <> channel_slug, _params, socket) do
     case Music.get_channel_by_slug(channel_slug) do
       nil ->
-          {:error, %{reason: "Room doesn't exist"}}
+          {:error, %{reason: "Channel doesn't exist"}}
 
-      {:ok, channel} ->
+      channel ->
         send(self(), :after_join)
         {:ok, %{success: true}, assign(socket, :channel, channel)}
     end
