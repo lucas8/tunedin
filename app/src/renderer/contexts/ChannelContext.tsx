@@ -2,38 +2,57 @@ import React from 'react';
 import { ProviderProps } from '.';
 import { ReducerAction } from '../types/types';
 import { useChannel } from './SocketContext';
+import { usePlayerState } from './PlayerContext';
 
 interface State {
-    test: string;
+    error: null | Error;
+    isConnected: boolean;
 }
 
 interface ChannelState extends State {
     joinChannel: (invite: string) => void;
 }
 
-const ChannelContext = React.createContext<undefined | ChannelState>(undefined);
+const initialState: State = {
+    error: null,
+    isConnected: false,
+};
 
 const eventReducer = (state: State, { event, payload }: ReducerAction) => {
     switch (event) {
-        case 'testing':
-            return { ...state, test: 'hello world' };
+        case 'phx_reply':
+            if (payload.status == 'error') {
+                return { ...state, error: new Error(payload.response.reason) };
+            } else if (payload.status == 'ok') {
+                return { ...state, isConnected: payload.response.success };
+            }
         default:
             return state;
     }
 };
 
-export default function ChannelProvider({ children }: ProviderProps) {
-    const initialState: State = {
-        test: 'test',
-    };
-    const { state, join } = useChannel<State>(eventReducer, initialState);
+const ChannelContext = React.createContext<undefined | ChannelState>(undefined);
 
-    const value: ChannelState = {
-        ...state,
-        joinChannel: (invite: string) => {
-            join(`channel:${invite}`);
-        },
-    };
+export default function ChannelProvider({ children }: ProviderProps) {
+    const { setView } = usePlayerState();
+
+    const { state, join } = useChannel<State>(eventReducer, initialState, { leaveOnError: true });
+
+    React.useEffect(() => {
+        if (state.isConnected) {
+            setView('channel');
+        }
+    }, [state.isConnected]);
+
+    const value: ChannelState = React.useMemo(
+        () => ({
+            ...state,
+            joinChannel: (invite: string) => {
+                join(`channel:${invite}`);
+            },
+        }),
+        [state],
+    );
 
     return <ChannelContext.Provider value={value}>{children}</ChannelContext.Provider>;
 }

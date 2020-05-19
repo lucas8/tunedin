@@ -13,15 +13,15 @@ export interface ProviderProps {
 export default function Contexts({ children }: ProviderProps) {
     return (
         <AuthProvider>
-            <RecentProvider>
-                <SocketProvider>
-                    {/* <ChannelProvider> */}
-                    <CurrentProvider>
-                        <PlayerProvider>{children}</PlayerProvider>
-                    </CurrentProvider>
-                    {/* </ChannelProvider> */}
-                </SocketProvider>
-            </RecentProvider>
+            <PlayerProvider>
+                <RecentProvider>
+                    <SocketProvider>
+                        <ChannelProvider>
+                            <CurrentProvider>{children}</CurrentProvider>
+                        </ChannelProvider>
+                    </SocketProvider>
+                </RecentProvider>
+            </PlayerProvider>
         </AuthProvider>
     );
 }

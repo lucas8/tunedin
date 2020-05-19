@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import theme from '../../theme';
 
 export const Title = styled.h4`
     font-weight: bold;
@@ -31,4 +32,12 @@ export const Input = styled.input`
     color: #fff;
     font-weight: 600;
     font-size: 14px;
+`;
+
+export const Pre = styled.pre`
+    font-size: 12px;
+    color: ${theme.brand.error};
+    font-weight: 600;
+    margin: 0;
+    margin-top: 4px;
 `;

@@ -9,12 +9,14 @@ defmodule TunedinWeb.ChannelChannel do
     case Music.get_channel_by_slug(channel_slug) do
       nil ->
         {:error, %{reason: "Channel not found"}}
+
       channel ->
         send(self(), :after_join)
         {:ok, %{success: true},assign(socket, :channel, channel)}
     end
   end
 
+  @spec handle_info(:after_join, Phoenix.Socket.t()) :: {:noreply, Phoenix.Socket.t()}
   def handle_info(:after_join, socket) do
       # Pushes metadata list for socket
       push(socket, "presence_state", Presence.list(socket))

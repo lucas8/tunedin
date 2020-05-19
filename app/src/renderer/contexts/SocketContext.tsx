@@ -23,6 +23,7 @@ function joinChannel(
     topic: string,
     dispatch: React.Dispatch<ReducerAction>,
     setBroadcast: React.Dispatch<React.SetStateAction<(eventName: string, payload: object) => void>>,
+    leaveOnError = false,
 ) {
     const channel = socket.channel(topic, { client: 'browser' });
 
@@ -36,7 +37,12 @@ function joinChannel(
     channel
         .join()
         .receive('ok', () => styledLog(`Successfully Joined Channel: ${topic.split(':')[0]}`, true))
-        .receive('error', () => styledLog(`Failed to Join Channel: ${topic.split(':')[0]}`, false));
+        .receive('error', () => {
+            if (leaveOnError) {
+                channel.leave();
+            }
+            styledLog(`Failed to Join Channel: ${topic.split(':')[0]}`, false);
+        });
 
     setBroadcast(() => (eventName: string, payload: object) => channel.push(eventName, payload));
 
@@ -45,18 +51,22 @@ function joinChannel(
     };
 }
 
-export function useChannel<T>(topic: string, reducer: (state: T, action: ReducerAction) => T, initialState: T) {
+interface ChannelOptions {
+    leaveOnError?: boolean;
+}
+
+export function useChannel<T>(
+    reducer: (state: T, action: ReducerAction) => T,
+    initialState: T,
+    options?: ChannelOptions,
+) {
     const socket = React.useContext(SocketContext)!;
     const [state, dispatch] = React.useReducer<React.Reducer<T, ReducerAction>>(reducer, initialState);
     const [broadcast, setBroadcast] = React.useState(mustJoinChannelWarning);
 
-    React.useEffect(() => {
-        let doCleanup: () => void = () => null;
-        if (socket != null) {
-            doCleanup = joinChannel(socket, topic, dispatch, setBroadcast);
-        }
-        return doCleanup;
-    }, [topic, dispatch, socket]);
-
-    return { state, broadcast };
+    return {
+        state,
+        broadcast,
+        join: (topic: string) => joinChannel(socket, topic, dispatch, setBroadcast, options?.leaveOnError),
+    };
 }

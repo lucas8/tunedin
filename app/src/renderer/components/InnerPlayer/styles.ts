@@ -60,9 +60,9 @@ export const Wrapper = styled(motion.div).attrs({
     height: 100%;
 `;
 
-export const InnerWrapper = styled.div<{ height: number }>`
+export const InnerWrapper = styled.div<{ height: number | string }>`
     width: 100%;
-    height: ${({ height }) => height}px;
+    height: ${({ height }) => (typeof height == 'number' ? `${height}px` : height)};
     display: flex;
     align-items: center;
     justify-content: center;

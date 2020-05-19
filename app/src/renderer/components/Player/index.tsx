@@ -21,7 +21,11 @@ export default function Player() {
             isOpen={isOpen}
             isPlaying={!!isTrackPlaying}
             // The +1 is to account for the divider
-            height={!!isTrackPlaying ? currentPage.height + (70 - 1) : currentPage.height + (40 - 1)}
+            height={
+                typeof currentPage.height == 'number' && !!isTrackPlaying
+                    ? (currentPage.height as number) + (70 - 1)
+                    : (currentPage.height as number) + (40 - 1)
+            }
         >
             <S.PlayingContainer isPlaying={!!isTrackPlaying}>
                 <S.AlbumContainer>

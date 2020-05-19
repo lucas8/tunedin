@@ -6,7 +6,7 @@ import Join from '../components/Join';
 interface Page {
     name: string;
     component: JSX.Element;
-    height: number;
+    height: number | string;
     actionBar?: JSX.Element;
 }
 
@@ -19,6 +19,7 @@ interface PlayerState {
     setOpen: (isOpen: boolean) => void;
     setView: (view: string) => void;
     setDirection: (direction: string) => void;
+    movePage: (direction: string, view: string) => void;
 }
 
 const PlayerContext = React.createContext<PlayerState | undefined>(undefined);
@@ -33,6 +34,11 @@ const pages: Page[] = [
         name: 'join',
         component: <Join />,
         height: 200,
+    },
+    {
+        name: 'channel',
+        component: <div style={{ background: 'red' }}>hey</div>,
+        height: '100%',
     },
 ];
 
@@ -56,6 +62,9 @@ export default function PlayerProvider({ children }: ProviderProps) {
             },
             setDirection: (direction: string) => {
                 setState((state) => ({ ...state, direction }));
+            },
+            movePage: (direction: string, view: string) => {
+                setState((state) => ({ ...state, direction, view }));
             },
         }),
         [state],
