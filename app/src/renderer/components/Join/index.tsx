@@ -28,7 +28,7 @@ const initialState = {
 export default function Join() {
     const [invite, setInvite] = React.useState('');
     const { setView, setDirection } = usePlayerState();
-    const { socket, join } = useChannel(eventReducer, initialState);
+    const { state } = useChannel(`channel:a`, eventReducer, initialState);
 
     // React.useEffect(() => {
     //     setDirection('left');
@@ -36,7 +36,6 @@ export default function Join() {
 
     const handleSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
         console.log('hi');
-        join(`channel:${invite}`);
         event.preventDefault();
     };
 

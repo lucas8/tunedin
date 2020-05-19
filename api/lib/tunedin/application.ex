@@ -17,6 +17,7 @@ defmodule Tunedin.Application do
       TunedinWeb.Endpoint,
       {Tunedin.ChannelWatcher, :users},
       {Tunedin.Accounts.CurrentlyListening, :currently_listening},
+      TunedinWeb.Presence
       # Start a worker by calling: Tunedin.Worker.start_link(arg)
     ]
 

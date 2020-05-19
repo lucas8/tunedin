@@ -34,9 +34,7 @@ export default function CurrentSocketProvider({ children }: ProviderProps) {
         isPending: true,
     };
     const { user } = useAuthState();
-    const { state, join } = useChannel<CurrentSocketState>(eventReducer, initialState);
-
-    React.useEffect(() => join(`user:${user.id}`), [user.id]);
+    const { state } = useChannel<CurrentSocketState>(`user:${user.id}`, eventReducer, initialState);
 
     return <CurrentSocketContext.Provider value={state}>{children}</CurrentSocketContext.Provider>;
 }

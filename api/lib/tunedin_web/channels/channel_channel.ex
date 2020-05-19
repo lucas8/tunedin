@@ -8,11 +8,10 @@ defmodule TunedinWeb.ChannelChannel do
   def join("channel:" <> channel_slug, _params, socket) do
     case Music.get_channel_by_slug(channel_slug) do
       nil ->
-          {:error, %{reason: "Channel doesn't exist"}}
-
+        {:error, %{reason: "Channel not found"}}
       channel ->
         send(self(), :after_join)
-        {:ok, %{success: true}, assign(socket, :channel, channel)}
+        {:ok, %{success: true},assign(socket, :channel, channel)}
     end
   end
 
@@ -22,7 +21,7 @@ defmodule TunedinWeb.ChannelChannel do
 
       user = get_user(socket)
 
-      is_dj =  if (socket.channel.user_id == user.id), do: true, else: false
+      is_dj =  if (socket.assigns[:channel].user_id == user.id), do: true, else: false
 
       {:ok, _} = Presence.track(socket, "user:#{user.id}", %{
         is_dj: is_dj,
