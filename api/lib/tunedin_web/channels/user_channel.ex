@@ -3,7 +3,7 @@ defmodule TunedinWeb.UserChannel do
 
   alias Tunedin.Accounts
 
-  def join("user:" <> _id, _params, socket) do
+  def join("user:" <> _, _params, socket) do
     send(self(), :after_join)
     {:ok, %{success: true}, socket}
   end

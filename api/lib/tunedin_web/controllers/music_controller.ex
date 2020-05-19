@@ -3,8 +3,6 @@ defmodule TunedinWeb.MusicController do
 
   alias Tunedin.Accounts
 
-  plug Guardian.Plug.EnsureAuthenticated
-
   @base_url "https://api.spotify.com/v1"
   @account_url "https://accounts.spotify.com/api"
 

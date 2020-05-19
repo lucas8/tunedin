@@ -1,4 +1,4 @@
-defmodule TunedinWeb.RoomView do
+defmodule TunedinWeb.ChannelView do
   use TunedinWeb, :view
 
   def render("response.json", %{success: success, message: message}) do

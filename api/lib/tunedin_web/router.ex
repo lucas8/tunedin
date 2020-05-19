@@ -13,6 +13,7 @@ defmodule TunedinWeb.Router do
     plug :accepts, ["json"]
     plug :fetch_session
     plug Tunedin.Accounts.Pipeline
+    plug Guardian.Plug.EnsureAuthenticated
   end
 
   scope "/api", TunedinWeb do
@@ -23,6 +24,8 @@ defmodule TunedinWeb.Router do
     get "/music/refresh", MusicController, :refresh
 
     get "/users/me", UserController, :me
+
+    post "/channels/new", ChannelController, :create
   end
 
   scope "/auth", TunedinWeb do

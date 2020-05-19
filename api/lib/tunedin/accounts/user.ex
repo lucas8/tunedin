@@ -10,6 +10,8 @@ defmodule Tunedin.Accounts.User do
     field :email, :string
     field :avatar_url, :string
 
+    has_one :channels, Tunedin.Music.Channel
+
     timestamps()
   end
 

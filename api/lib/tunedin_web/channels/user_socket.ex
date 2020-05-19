@@ -3,6 +3,7 @@ defmodule TunedinWeb.UserSocket do
   alias Tunedin.Accounts.Guardian
 
   channel "user:*", TunedinWeb.UserChannel
+  channel "channel:*", TunedinWeb.ChannelChannel
 
   def connect(%{"token" => token}, socket, _conn_info) do
     case Guardian.decode_and_verify(token) do
