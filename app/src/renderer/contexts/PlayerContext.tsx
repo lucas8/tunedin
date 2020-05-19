@@ -37,7 +37,7 @@ const pages: Page[] = [
     },
     {
         name: 'channel',
-        component: <div style={{ background: 'red' }}>hey</div>,
+        component: <div>Channel Main Page</div>,
         height: '100%',
     },
 ];

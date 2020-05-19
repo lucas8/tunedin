@@ -10,7 +10,10 @@ interface ContainerProps {
 export const Container = styled(motion.div).attrs(({ isOpen, isPlaying, height, view }: ContainerProps) => ({
     variants: {
         small: {
-            y: `calc(100% - ${isPlaying ? '70px' : '40px'})`,
+            y: 'calc(100% - 40px)',
+        },
+        big: {
+            y: 'calc(100% - 70px)',
         },
         createjoin: {
             y: `calc(100% - ${height}px )`,
@@ -30,7 +33,7 @@ export const Container = styled(motion.div).attrs(({ isOpen, isPlaying, height, 
         damping: 10,
         stiffness: 100,
     },
-    animate: isOpen ? view : 'small',
+    animate: isOpen ? view : isPlaying ? 'big' : 'small',
     transition: { ease: 'easeInOut', type: 'spring', stiffness: 200, damping: 30 },
 }))<ContainerProps>`
     width: 100%;
