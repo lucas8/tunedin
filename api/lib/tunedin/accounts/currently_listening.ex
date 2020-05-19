@@ -25,8 +25,9 @@ defmodule Tunedin.Accounts.CurrentlyListening do
   end
 
   def handle_call({:attach, user_id, user_token}, _from, state) do
-    schedule_task(user_id)
-    {:reply, :ok, put_user(state, user_id, user_token)}
+    state = put_user(state, user_id, user_token)
+    state = fetch_current_song(state, user_id)
+    {:reply, :ok, state}
   end
 
   def handle_call({:detach, user_id}, _from, state) do
@@ -39,6 +40,11 @@ defmodule Tunedin.Accounts.CurrentlyListening do
   end
 
   def handle_info({:get_current_song, user_id}, state) do
+    state = fetch_current_song(state, user_id)
+    {:noreply, state}
+  end
+
+  defp fetch_current_song(state, user_id) do
     {:ok, user} = get_user(state, user_id)
     headers = [{"Authorization", "Bearer #{user.token}"}]
 
@@ -57,7 +63,7 @@ defmodule Tunedin.Accounts.CurrentlyListening do
 
         schedule_task(user_id)
 
-        {:noreply, update_user(state, user_id, song_id)}
+        update_user(state, user_id, song_id)
 
       {:ok, _reason} ->
         broadcast("current_song:update", user_id, %{
@@ -67,7 +73,7 @@ defmodule Tunedin.Accounts.CurrentlyListening do
 
         schedule_task(user_id)
 
-        {:noreply, update_user(state, user_id, 0)}
+        update_user(state, user_id, 0)
     end
   end
 
