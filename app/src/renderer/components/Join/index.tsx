@@ -13,7 +13,8 @@ interface State {
 
 const eventReducer = (state: State, { event, payload }: ReducerAction) => {
     switch (event) {
-        case 'testing':
+        case 'phx_reply':
+            console.log(payload);
             return { ...state, test: 'hello world' };
         default:
             return state;
@@ -27,9 +28,7 @@ const initialState = {
 export default function Join() {
     const [invite, setInvite] = React.useState('');
     const { setView, setDirection } = usePlayerState();
-    const { join, state } = useChannel(eventReducer, initialState);
-
-    console.log(state);
+    const { socket, join } = useChannel(eventReducer, initialState);
 
     // React.useEffect(() => {
     //     setDirection('left');

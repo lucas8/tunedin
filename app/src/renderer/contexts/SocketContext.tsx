@@ -36,6 +36,12 @@ function joinChannel(
         .receive('ok', () => styledLog(`Successfully Joined Channel: ${topic.split(':')[0]}`, true))
         .receive('error', () => styledLog(`Failed to Join Channel: ${topic.split(':')[0]}`, false));
 
+    console.log(channel);
+
+    console.log('hi');
+
+    debugger;
+
     setBroadcast(() => channel.push.bind(channel));
 
     return () => {
@@ -46,7 +52,7 @@ function joinChannel(
 export function useChannel<T>(
     reducer: (state: T, action: ReducerAction) => T,
     initialState: T,
-): { state: T; broadcast: () => void; join: (topic: string) => void } {
+): { state: T; broadcast: () => void; join: (topic: string) => void; socket: Socket } {
     const socket = React.useContext(SocketContext)!;
     const [state, dispatch] = React.useReducer<React.Reducer<T, ReducerAction>>(reducer, initialState);
     const [broadcast, setBroadcast] = React.useState(mustJoinChannelWarning);
@@ -55,5 +61,6 @@ export function useChannel<T>(
         state,
         broadcast,
         join: (topic: string) => joinChannel(socket, topic, dispatch, setBroadcast),
+        socket,
     };
 }

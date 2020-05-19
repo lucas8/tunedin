@@ -54,7 +54,6 @@ defmodule Tunedin.Accounts.CurrentlyListening do
 
         # Song isnt equal to the previous song
         if(song_id !== user.prev_song) do
-          IO.puts("HEYYY")
           broadcast("current_song:update", user_id, %{
             success: true,
             track: item
