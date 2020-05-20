@@ -1,12 +1,16 @@
 import React from 'react';
 import { ProviderProps } from '.';
-import { ReducerAction } from '../types/types';
+import { ReducerAction, User } from '../types/types';
 import { useChannel } from './SocketContext';
 import { usePlayerState } from './PlayerContext';
+import { Presence } from 'phoenix';
 
 interface State {
+    owner: User | null;
     error: null | Error;
     isConnected: boolean;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    presenceData: any;
 }
 
 interface ChannelState extends State {
@@ -16,6 +20,8 @@ interface ChannelState extends State {
 const initialState: State = {
     error: null,
     isConnected: false,
+    presenceData: {},
+    owner: null,
 };
 
 const eventReducer = (state: State, { event, payload }: ReducerAction) => {
@@ -24,8 +30,12 @@ const eventReducer = (state: State, { event, payload }: ReducerAction) => {
             if (payload.status == 'error') {
                 return { ...state, error: new Error(payload.response.reason) };
             } else if (payload.status == 'ok') {
-                return { ...state, isConnected: payload.response.success };
+                return { ...state, isConnected: payload.response.success, owner: payload.response.owner };
             }
+        case 'presence_state':
+            return { ...state, presenceData: Presence.syncState(state.presenceData, payload) };
+        case 'presence_diff':
+            return { ...state, presenceData: Presence.syncDiff(state.presenceData, payload) };
         default:
             return state;
     }

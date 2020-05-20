@@ -12,7 +12,7 @@ defmodule TunedinWeb.UserChannel do
   def handle_info(:after_join, %{assigns: %{user_id: user_id}} = socket) do
     user = Accounts.get_user!(user_id)
 
-    :ok = Tunedin.Accounts.CurrentlyListening.attach(:currently_listening, user.id, user.access_token)
+    :ok = Tunedin.Accounts.CurrentlyListening.attach(user.id, user.access_token)
 
 
     # Start channel watcher, used to monitor if user leaves
@@ -22,6 +22,6 @@ defmodule TunedinWeb.UserChannel do
   end
 
   def leave(user_id) do
-    Tunedin.Accounts.CurrentlyListening.detach(:currently_listening, user_id)
+    Tunedin.Accounts.CurrentlyListening.detach(user_id)
   end
 end

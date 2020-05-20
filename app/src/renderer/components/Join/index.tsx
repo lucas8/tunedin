@@ -5,6 +5,7 @@ import ActionBar from '../ActionBar';
 import { usePlayerState } from '../../contexts/PlayerContext';
 import theme from '../../theme';
 import { useChannelState } from '../../contexts/ChannelContext';
+import { Icon } from '../Icon';
 
 export default function Join() {
     const [invite, setInvite] = React.useState('');
@@ -35,7 +36,8 @@ export default function Join() {
             </div>
             <ActionBar>
                 <B.Outline type="button" onClick={handleBack}>
-                    Back
+                    <Icon glyph="chevron-down" size={16} style={{ transform: 'rotate(-90deg)' }} />
+                    <span>Back</span>
                 </B.Outline>
                 <B.Solid type="submit" color={theme.brand.primary}>
                     Join

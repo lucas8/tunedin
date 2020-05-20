@@ -4,6 +4,7 @@ defmodule TunedinWeb.ChannelChannel do
   alias TunedinWeb.Presence
   alias Tunedin.Accounts
   alias Tunedin.Music
+  alias Tunedin.Repo
 
   def join("channel:" <> channel_slug, _params, socket) do
     case Music.get_channel_by_slug(channel_slug) do
@@ -11,12 +12,16 @@ defmodule TunedinWeb.ChannelChannel do
         {:error, %{reason: "Channel not found"}}
 
       channel ->
+        channel = Repo.preload(channel, :user)
+        user_template = %{
+          id: channel.user.id,
+          username: channel.user.username,
+        }
         send(self(), :after_join)
-        {:ok, %{success: true},assign(socket, :channel, channel)}
+        {:ok, %{success: true, owner: user_template},assign(socket, :channel, channel)}
     end
   end
 
-  @spec handle_info(:after_join, Phoenix.Socket.t()) :: {:noreply, Phoenix.Socket.t()}
   def handle_info(:after_join, socket) do
       # Pushes metadata list for socket
       push(socket, "presence_state", Presence.list(socket))

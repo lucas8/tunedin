@@ -29,7 +29,7 @@ export default function Recent({ setDirection, scrollPos }: RecentPageProps) {
             </Header>
             <S.RecentTrackContainer>
                 {tracks?.map(({ track }, x) => {
-                    return <S.RecentTrack image={track.album.images[0].url} key={x} />;
+                    return <S.RecentTrack image={track.album.images[0].url} key={x} draggable={false} />;
                 })}
             </S.RecentTrackContainer>
         </>

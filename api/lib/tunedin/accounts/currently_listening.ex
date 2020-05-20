@@ -6,12 +6,12 @@ defmodule Tunedin.Accounts.CurrentlyListening do
 
   # Client API
 
-  def attach(server_name, user_id, user_token) do
-    GenServer.call(server_name, {:attach, user_id, user_token})
+  def attach(user_id, user_token) do
+    GenServer.call(:currently_listening, {:attach, user_id, user_token})
   end
 
-  def detach(server_name, user_id) do
-    GenServer.call(server_name, {:detach, user_id})
+  def detach(user_id) do
+    GenServer.call(:currently_listening, {:detach, user_id})
   end
 
   # Server API

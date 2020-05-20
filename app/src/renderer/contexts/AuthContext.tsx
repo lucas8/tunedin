@@ -2,10 +2,10 @@ import React from 'react';
 import { ipcRenderer } from 'electron';
 import { User, APIResponse } from '../types/types';
 import Login from '../pages/Login';
-import { getUserToken, setUserToken } from '../utils/localStorage';
+import { setUserToken } from '../utils/localStorage';
 import { baseUrl } from '../utils/config';
 import useSWR from 'swr';
-import fetcher from '../utils/fetcher';
+import { fetchWithAuth } from '../utils/fetcher';
 import { ProviderProps } from './';
 
 interface AuthState {
@@ -17,19 +17,9 @@ interface AuthState {
 const AuthContext = React.createContext<AuthState | undefined>(undefined);
 
 export default function AuthProvider({ children }: ProviderProps) {
-    const { data, error, mutate } = useSWR<APIResponse<User>>(
-        `${baseUrl}/api/users/me`,
-        (url) =>
-            fetcher(url, {
-                headers: {
-                    Authorization: `Bearer ${getUserToken()}`,
-                    'Content-type': 'application/json',
-                },
-            }),
-        {
-            shouldRetryOnError: false,
-        },
-    );
+    const { data, error, mutate } = useSWR<APIResponse<User>>(`${baseUrl}/api/users/me`, fetchWithAuth(), {
+        shouldRetryOnError: false,
+    });
 
     // ipcRenderer isn't always present when testing in an enviorment such as the reactdom while testing
     if (ipcRenderer) {

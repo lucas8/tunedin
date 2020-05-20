@@ -41,6 +41,11 @@ export interface Track {
     id: string;
 }
 
+export interface Channel {
+    id: string;
+    slug: string;
+}
+
 // Hook types
 
 export interface ReducerAction {

@@ -31,7 +31,7 @@ export default function Player() {
                 <S.AlbumContainer>
                     {isTrackPlaying && !!track ? (
                         <React.Fragment>
-                            <S.AlbumImage src={track.album.images[0].url} />
+                            <S.AlbumImage src={track.album.images[0].url} draggable={false} />
                             <S.AlbumTextContainer>
                                 <S.AlbumTitle>{track.name}</S.AlbumTitle>
                                 <S.AlbumArtist>{artists}</S.AlbumArtist>
