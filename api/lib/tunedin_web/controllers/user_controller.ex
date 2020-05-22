@@ -13,4 +13,10 @@ defmodule TunedinWeb.UserController do
 
       render(conn, "response.json", success: true, message: display_user)
   end
+
+  def token(conn, _params) do
+    user = Guardian.Plug.current_resource(conn)
+
+    render(conn, "response.json", success: true, message: user.access_token)
+  end
 end

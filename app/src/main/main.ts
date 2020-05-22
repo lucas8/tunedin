@@ -1,4 +1,5 @@
 import { app, BrowserWindow } from 'electron';
+import path from 'path';
 import './ipc';
 declare const MAIN_WINDOW_WEBPACK_ENTRY: any;
 
@@ -7,6 +8,15 @@ if (require('electron-squirrel-startup')) {
     // eslint-disable-line global-require
     app.quit();
 }
+
+const wideVineDrmDir = path.join(__dirname, './platform_specific/widevine/mac_x64/libwidevinecdm.dylib');
+
+// You have to pass the directory that contains widevine library here, it is
+// * `libwidevinecdm.dylib` on macOS,
+// * `widevinecdm.dll` on Windows.
+app.commandLine.appendSwitch('widevine-cdm-path', wideVineDrmDir);
+// The version of plugin can be got from `chrome://components` page in Chrome.
+app.commandLine.appendSwitch('widevine-cdm-version', '4.10.1610.0');
 
 const createWindow = () => {
     // Create the browser window.
@@ -17,14 +27,15 @@ const createWindow = () => {
         minWidth: 350,
         minHeight: 550,
         frame: false,
+        backgroundColor: '#111111',
         // frame: true,
         // autoHideMenuBar: true,
         // titleBarStyle: 'hiddenInset', // MacOS polished window
         transparent: true,
         webPreferences: {
             nodeIntegration: true,
+            plugins: true,
         },
-        backgroundColor: '#111111',
     });
 
     // and load the index.html of the app.

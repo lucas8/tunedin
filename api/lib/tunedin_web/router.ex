@@ -23,6 +23,7 @@ defmodule TunedinWeb.Router do
     get "/music/refresh", MusicController, :refresh
 
     get "/users/me", UserController, :me
+    get "/users/token", UserController, :token
 
     post "/channels/new", ChannelController, :create
   end

@@ -5,6 +5,7 @@ import CurrentProvider from './CurrentContext';
 import PlayerProvider from './PlayerContext';
 import ChannelProvider from './ChannelContext';
 import SocketProvider from './SocketContext';
+import PlaybackProvider from './PlaybackContext';
 
 export interface ProviderProps {
     children?: React.ReactNode;
@@ -13,15 +14,17 @@ export interface ProviderProps {
 export default function Contexts({ children }: ProviderProps) {
     return (
         <AuthProvider>
-            <PlayerProvider>
-                <RecentProvider>
-                    <SocketProvider>
-                        <ChannelProvider>
-                            <CurrentProvider>{children}</CurrentProvider>
-                        </ChannelProvider>
-                    </SocketProvider>
-                </RecentProvider>
-            </PlayerProvider>
+            <PlaybackProvider>
+                <PlayerProvider>
+                    <RecentProvider>
+                        <SocketProvider>
+                            <ChannelProvider>
+                                <CurrentProvider>{children}</CurrentProvider>
+                            </ChannelProvider>
+                        </SocketProvider>
+                    </RecentProvider>
+                </PlayerProvider>
+            </PlaybackProvider>
         </AuthProvider>
     );
 }

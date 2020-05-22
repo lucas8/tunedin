@@ -6,11 +6,18 @@
   <title>Hello World!</title>
   <!-- TODO: connect-src -->
   <meta http-equiv="Content-Security-Policy"
-    content="default-src 'none'; img-src 'self' https:; media-src 'self'; child-src 'self'; object-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self' http://localhost:4000 ws://localhost:4000; font-src 'self' data:">
+    content="default-src 'none'; img-src 'self' https:; media-src 'self'; child-src https://sdk.scdn.co 'self'; object-src 'self'; script-src https://sdk.scdn.co 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; connect-src 'self' http://localhost:4000 ws://localhost:4000; font-src 'self' data:">
 </head>
 
 <body>
   <div id="root" class="loader"></div>
+
+  <script src="https://sdk.scdn.co/spotify-player.js"></script>
+  <script>
+    window.onSpotifyWebPlaybackSDKReady = () => {
+      window.Spotify = Spotify;
+    }
+  </script>
 </body>
 
 </html>
