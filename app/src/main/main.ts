@@ -9,15 +9,6 @@ if (require('electron-squirrel-startup')) {
     app.quit();
 }
 
-const wideVineDrmDir = path.join(__dirname, './platform_specific/widevine/mac_x64/libwidevinecdm.dylib');
-
-// You have to pass the directory that contains widevine library here, it is
-// * `libwidevinecdm.dylib` on macOS,
-// * `widevinecdm.dll` on Windows.
-app.commandLine.appendSwitch('widevine-cdm-path', wideVineDrmDir);
-// The version of plugin can be got from `chrome://components` page in Chrome.
-app.commandLine.appendSwitch('widevine-cdm-version', '4.10.1610.0');
-
 const createWindow = () => {
     // Create the browser window.
     const mainWindow = new BrowserWindow({
