@@ -1,5 +1,7 @@
 # Tunedin
 
+Project stopped beacuse playing spotify in electron is impossible without a (Widevine DRM)[https://www.widevine.com/solutions/widevine-drm]
+
 Tunedin is a electron app for listening to spotify in a group.
 
 ![designs](./designs.png)
